@@ -1,0 +1,17 @@
+<ion-view view-title="Search">
+  <ion-content>
+    <div class="list">
+      <div id="searchbox" class="item-borderless item-input-inset">
+        <label class="item item-input-wrapper">
+          <i class="icon ion-search placeholder-icon"></i>
+          <input type="text" placeholder="Search book" ng-model="search.terms">
+        </label>
+        <button class="button button-small button-assertive icon ion-android-search light" ng-click="search(search.terms)">
+        </button>
+      </div>
+      <ion-item ng-repeat="book in data.data.items">
+        {{ book.volumeInfo.title }}
+      </ion-item>
+    </div>
+  </ion-content>
+</ion-view>

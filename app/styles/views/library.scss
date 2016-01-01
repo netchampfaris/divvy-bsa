@@ -1,0 +1,38 @@
+/* Library tab*/
+.float-button {
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  box-shadow: 0px 0px 2px $calm;
+  width: 25px;
+  padding: 20px;
+  font-size: 20px;
+  background: $assertive;
+  position: fixed;
+  bottom: 20px; /* Adjust to where you want it */
+  right: 20px; /* Adjust to where you want it */
+  z-index: 9999;
+
+  &:active {
+    background: $calm;
+  }
+
+  .height-fix {
+    margin-top: 100%;
+  }
+
+  .content {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    margin-top: -10px; /* Note, this must be half the font size */
+    color: $light;
+  }
+}
+
+.ios-height-fix {
+  bottom: 4em;
+}
