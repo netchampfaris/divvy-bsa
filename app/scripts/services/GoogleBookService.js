@@ -9,15 +9,15 @@
  *
  */
 angular.module('Divvy')
-  .factory('GoogleBookService', function($http, GoogleBooksAPI, $q) {
+  .factory('GoogleBookService', function($http, $q) {
 
-    var endpoint = GoogleBooksAPI.url;
+    var endpoint = 'https://www.googleapis.com/books/v1/volumes?q=';
 
-    // activate for basic auth
     // public api
     return {
       getEndpoint: function(searchTerms) {
         var defer = $q.defer();
+        searchTerms = encodeURI(searchTerms);
         console.log(endpoint + searchTerms);
         $http({
           method: 'GET',

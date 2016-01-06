@@ -1,3 +1,14 @@
+'use strict';
+
 /**
- * Created by FarisAnsari on 01-Jan-16.
+ * @ngdoc function
+ * @name Divvy.controller:LoginCtrl
+ * @description
+ * # LoginCtrl
  */
+angular.module('Divvy')
+  .controller('LoginCtrl', function($scope) {
+
+
+
+  });

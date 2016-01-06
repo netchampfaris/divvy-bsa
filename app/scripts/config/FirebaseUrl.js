@@ -2,15 +2,12 @@
 
 /**
  * @ngdoc constant
- * @name Divvy.GoogleBooksAPI
+ * @name Divvy.FirebaseUrl
  * @description
- * # GoogleBooksAPI
+ * # FirebaseUrl
  */
 
 
 angular.module('Divvy')
-
-  .constant('GoogleBooksAPI', {
-    url: "https://www.googleapis.com/books/v1/volumes?q="
-  });
+  .constant('FirebaseUrl', "https://divvybsa.firebaseio.com");
 

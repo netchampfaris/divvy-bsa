@@ -1,12 +1,21 @@
 <ion-view view-title="Add a book">
   <ion-content>
-    <div id="searchbox" class="item-borderless item-input-inset">
-      <label class="item item-input-wrapper">
-        <i class="icon ion-search placeholder-icon"></i>
-        <input type="text" placeholder="Add book" ng-model="add.book">
+    <form class="item item-input-inset item-stable">
+      <label class="item-input-wrapper">
+        <input type="text" placeholder="Add book by title or ISBN" ng-model="keywords">
       </label>
-      <button class="button button-small button-assertive icon ion-android-add light" ng-click="addbook(add.book)">
+      <button type=submit class="button button-small button-assertive icon ion-search" ng-click="addbook(keywords)">
       </button>
-    </div>
+    </form>
+    <button class="button button-full button-positive" ng-click="scan()">
+      Barcode Scanner
+    </button>
+    <ion-list>
+      <ion-item class="item-thumbnail-left" ng-repeat="item in searchResults.items">
+        <img src="{{item.volumeInfo.imageLinks.smallThumbnail}}" alt="">
+        <h2>{{item.volumeInfo.title}}</h2>
+        <p><span ng-repeat="author in item.volumeInfo.authors">{{author}}{{(item.volumeInfo.authors.length>1)?',':''}} </span></p>
+      </ion-item>
+    </ion-list>
   </ion-content>
 </ion-view>

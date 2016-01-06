@@ -7,21 +7,12 @@
  * # SearchCtrl
  */
 angular.module('Divvy')
-  .controller('SearchCtrl', function($scope, GoogleBookService) {
+  .controller('SearchCtrl', function($scope) {
 
     console.log('in search');
     $scope.data = {};
     $scope.search = function (searchTerms) {
-
       console.log(searchTerms);
-      GoogleBookService.getEndpoint(searchTerms).then(function(data){
-        console.log(data);
-        $scope.data = data;
-      });
     }
-
-
-
-
 
   });

@@ -12,14 +12,27 @@
 
 angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource'])
 
-  .run(function($ionicPlatform) {
+  .run(function($ionicPlatform, $ionicLoading, $rootScope) {
 
     $ionicPlatform.ready(function() {
       // save to use plugins here
+
+      var fb = new Firebase('https://divvybsa.firebaseio.com');
+      fb.once('value', function(snapshot){
+        console.log(snapshot.val());
+      })
     });
 
     // add possible global event handlers here
+    $rootScope.$on('loading:show', function() {
+      $ionicLoading.show({
+        template:'<ion-spinner icon="crescent" class="spinner-assertive"></ion-spinner>'
+      });
+    });
 
+    $rootScope.$on('loading:hide', function() {
+      $ionicLoading.hide()
+    });
   })
 
   .config(function($httpProvider, $stateProvider, $urlRouterProvider) {
@@ -80,6 +93,20 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource'])
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/tab/featured');
+
+    //show loading indicators before $http request
+    $httpProvider.interceptors.push(function($rootScope) {
+      return {
+        request: function(config) {
+          $rootScope.$broadcast('loading:show')
+          return config
+        },
+        response: function(response) {
+          $rootScope.$broadcast('loading:hide')
+          return response
+        }
+      }
+    });
   });
 
 
