@@ -25,14 +25,11 @@ angular.module('Divvy')
       {
         title: "Mathematics IV",
         author: "Kumbhojkar"
-      },
-      {
-        title: "asdf",
-        author: "jkl;"
       }
     ];
 
     $scope.addbook = function() {
+
       $state.go('tab.addbook');
     }
 

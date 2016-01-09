@@ -31,8 +31,19 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource'])
     });
 
     $rootScope.$on('loading:hide', function() {
-      $ionicLoading.hide()
+      $ionicLoading.hide();
     });
+
+    $rootScope.$on('$stateChangeStart', function () {
+      //$rootScope.$broadcast('loading:show');
+      console.log('please wait...');
+    });
+
+    $rootScope.$on('$stateChangeSuccess', function () {
+      //$rootScope.$broadcast('loading:hide');
+      console.log('done');
+    });
+
   })
 
   .config(function($httpProvider, $stateProvider, $urlRouterProvider) {
@@ -98,12 +109,12 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource'])
     $httpProvider.interceptors.push(function($rootScope) {
       return {
         request: function(config) {
-          $rootScope.$broadcast('loading:show')
-          return config
+          $rootScope.$broadcast('loading:show');
+          return config;
         },
         response: function(response) {
-          $rootScope.$broadcast('loading:hide')
-          return response
+          $rootScope.$broadcast('loading:hide');
+          return response;
         }
       }
     });

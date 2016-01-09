@@ -15,20 +15,22 @@ angular.module('Divvy')
         $scope.searchResults = data.data;
         console.log(data.data);
       });
-    }
+    };
 
     $scope.scan = function() {
 
-      $cordovaBarcodeScanner
-        .scan()
-        .then(function(barcodeData) {
-          // Success! Barcode data is here
-          console.log(barcodeData);
-          $ionicPopup.alert({title: "Found", template: barcodeData.text});
-        }, function(error) {
-          // An error occurred
-          console.log(error);
-        });
+      if(window.cordova){
+        $cordovaBarcodeScanner
+          .scan()
+          .then(function(barcodeData) {
+            // Success! Barcode data is here
+            console.log(barcodeData);
+            $ionicPopup.alert({title: "Found", template: barcodeData.text});
+          }, function(error) {
+            // An error occurred
+            console.log(error);
+          });
+      }
 
     }
 
