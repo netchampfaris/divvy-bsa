@@ -12,7 +12,7 @@
 
 angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource'])
 
-  .run(function($ionicPlatform, $ionicLoading, $rootScope) {
+  .run(function($ionicPlatform, $ionicLoading, $rootScope, FirebaseRef) {
 
     $ionicPlatform.ready(function() {
       // save to use plugins here
@@ -22,6 +22,11 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource'])
         console.log(snapshot.val());
       })
     });
+
+    FirebaseRef.onAuth(function (authData) {
+      console.log('user logged in');
+    });
+
 
     // add possible global event handlers here
     $rootScope.$on('loading:show', function() {
@@ -60,6 +65,12 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource'])
       })
 
       // Each tab has its own nav history stack:
+
+      .state('login', {
+        url: '/login',
+        templateUrl: 'templates/login/login.html',
+        controller: 'LoginCtrl'
+      })
 
       .state('tab.library', {
         url: '/library',
@@ -103,7 +114,7 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource'])
       });
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/tab/featured');
+    $urlRouterProvider.otherwise('/login');
 
     //show loading indicators before $http request
     $httpProvider.interceptors.push(function($rootScope) {
