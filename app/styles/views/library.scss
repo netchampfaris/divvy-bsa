@@ -38,3 +38,11 @@
 .platform-ios .float-button {
   bottom: 60px;
 }
+
+/*add-book-modal*/
+.button-bar > .button:last-child {
+  border-radius: 0px 15px 15px 0px !important;
+}
+.button-bar > .button:first-child {
+  border-radius: 15px 0px 0px 15px !important;
+}
