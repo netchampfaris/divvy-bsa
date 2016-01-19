@@ -1,10 +1,27 @@
-<ion-view>
-  <ion-content>
-    <ion-list>
-      <ion-item>Sign in with</ion-item>
-      <button class="button button-royal" ng-click="google()">Google</button>
-      <button class="button button-assertive">Twitter</button>
-      <button class="button button-positive">Github</button>
-    </ion-list>
+<ion-view hide-nav-bar="true">
+  <ion-content scroll="false">
+      <section class="login-container">
+        <div class="social-buttons padding">
+          <form action="">
+            <ion-list>
+              <ion-item class="item item-input">
+                <input type="text" placeholder="email">
+              </ion-item>
+              <ion-item class="item item-input">
+                <input type="password" placeholder="password">
+              </ion-item>
+            </ion-list>
+            <div class="button-bar">
+              <button class="button button-block button-outline button-light">Sign in</button>
+              <button class="button button-block button-outline button-light" ng-click="createUser()">Create account</button>
+            </div>
+          </form>
+          <div class="button-bar">
+            <button class="button button-block button-google" ng-click="login('google')">Google+</button>
+            <button class="button button-block button-twitter" ng-click="login('twitter')">Twitter</button>
+            <button class="button button-block button-facebook" ng-click="login('facebook')">Facebook</button>
+          </div>
+        </div>
+      </section>
   </ion-content>
 </ion-view>

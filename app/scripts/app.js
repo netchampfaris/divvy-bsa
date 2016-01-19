@@ -10,29 +10,39 @@
  */
 
 
-angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource'])
+angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'firebase'])
 
-  .run(function($ionicPlatform, $ionicLoading, $rootScope, FirebaseRef) {
+  .run(function($ionicPlatform, $ionicLoading, $rootScope, Auth, $localStorage, $state, $ionicPopup) {
 
     $ionicPlatform.ready(function() {
       // save to use plugins here
-
-      var fb = new Firebase('https://divvybsa.firebaseio.com');
-      fb.once('value', function(snapshot){
-        console.log(snapshot.val());
-      })
     });
 
-    FirebaseRef.onAuth(function (authData) {
-      console.log('user logged in');
+    Auth.$onAuth(function(authData) {
+      if (authData === null) {
+        console.log('Not logged in yet');
+        delete $localStorage.authData;
+        $state.go('login');
+      } else {
+        console.log('Logged in as', authData.uid);
+        $localStorage.authData = authData;
+        $state.go('tab.featured');
+      }
     });
 
+
+    $rootScope.confirmPopup = function (title, message, okText, okColor) {
+      return $ionicPopup.confirm({
+        title: title,
+        template: message,
+        okType: 'button-' + okColor,
+        okText: okText
+      });
+    };
 
     // add possible global event handlers here
     $rootScope.$on('loading:show', function() {
-      $ionicLoading.show({
-        template:'<ion-spinner icon="crescent" class="spinner-assertive"></ion-spinner>'
-      });
+      $ionicLoading.show();
     });
 
     $rootScope.$on('loading:hide', function() {
@@ -40,12 +50,12 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource'])
     });
 
     $rootScope.$on('$stateChangeStart', function () {
-      //$rootScope.$broadcast('loading:show');
+      $rootScope.$broadcast('loading:show');
       console.log('please wait...');
     });
 
     $rootScope.$on('$stateChangeSuccess', function () {
-      //$rootScope.$broadcast('loading:hide');
+      $rootScope.$broadcast('loading:hide');
       console.log('done');
     });
 
@@ -57,7 +67,14 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource'])
 
     // Application routing
     $stateProvider
-    // setup an abstract state for the tabs directive
+
+      .state('login', {
+        url: '/login',
+        templateUrl: 'templates/login/login.html',
+        controller: 'LoginCtrl'
+      })
+
+      // setup an abstract state for the tabs directive
       .state('tab', {
         url: '/tab',
         abstract: true,
@@ -65,12 +82,6 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource'])
       })
 
       // Each tab has its own nav history stack:
-
-      .state('login', {
-        url: '/login',
-        templateUrl: 'templates/login/login.html',
-        controller: 'LoginCtrl'
-      })
 
       .state('tab.library', {
         url: '/library',
