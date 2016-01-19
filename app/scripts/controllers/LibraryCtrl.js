@@ -7,26 +7,13 @@
  * # LibraryCtrl
  */
 angular.module('Divvy')
-  .controller('LibraryCtrl', function($scope, $state) {
+  .controller('LibraryCtrl', function($scope, $state, books) {
 
     console.log('in library');
     $scope.platform = ionic.Platform.platform();
 
-    $scope.books = [
-
-      {
-        title: "Mobile Communications",
-        author: "Jochen Schiller"
-      },
-      {
-        title: "Digital Logic",
-        author: "James Mathew"
-      },
-      {
-        title: "Mathematics IV",
-        author: "Kumbhojkar"
-      }
-    ];
+    $scope.librarybooks = books.userbooks;
+    console.log($scope.librarybooks);
 
     $scope.addbook = function() {
 

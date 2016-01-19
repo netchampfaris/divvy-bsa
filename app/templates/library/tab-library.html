@@ -4,8 +4,8 @@
       <div class="item item-divider-android positive">
         My books
       </div>
-      <ion-item class="item-borderless" ng-repeat="book in books">
-        {{ book.title }}
+      <ion-item class="item-borderless" ng-repeat="(isbn, book) in librarybooks track by isbn">
+        {{ book.bookinfo.title  }}
       </ion-item>
     </ion-list>
   </ion-content>

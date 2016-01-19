@@ -11,6 +11,8 @@ angular.module('Divvy')
     var vm = this;
     vm.book = parameters.book;
     $scope.userBook = parameters.userBook;
+    console.log(vm.book);
+    console.log($scope.userBook);
 
     $scope.add = function (userBook) {
       var valid = false;
