@@ -85,13 +85,14 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
 
       .state('tab.library', {
         url: '/library',
+        cache: false,
         views: {
           'tab-library': {
             templateUrl: 'templates/library/tab-library.html',
             controller: 'LibraryCtrl',
             resolve: {
-              "books" : function(UserBooks, $localStorage) {
-                return UserBooks.get($localStorage.authData.uid);
+              "books" : function(UserBooksLocal) {
+                return UserBooksLocal.get();
               }
             }
           }

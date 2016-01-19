@@ -4,12 +4,12 @@
       <div class="item item-divider-android positive">
         My books
       </div>
-      <ion-item class="item-borderless" ng-repeat="(isbn, book) in librarybooks track by isbn">
-        {{ book.bookinfo.title  }}
+      <ion-item class="item-borderless" ng-repeat="(isbn, book) in $storage.userBooks track by isbn" ng-click="editBook(book)">
+        {{ book.info.title  }}
       </ion-item>
     </ion-list>
   </ion-content>
-  <div class="float-button" ng-click="addbook()">
+  <div class="float-button" ui-sref="tab.addbook">
     <span class="height-fix">
       <a class="content">
         <i class="ion-ios-book"></i>

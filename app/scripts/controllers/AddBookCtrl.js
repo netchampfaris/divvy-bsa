@@ -33,7 +33,7 @@ angular.module('Divvy')
           });
       }
 
-    }
+    };
 
     $ionicModal.fromTemplateUrl('templates/library/add-book-modal.html', {
       scope: $scope,
@@ -57,6 +57,7 @@ angular.module('Divvy')
         language: item.volumeInfo.language || null
       };
 
+      /*convert nested isbn identifiers to linear*/
       var ii = item.volumeInfo.industryIdentifiers;
       for(var i in ii)
       {
@@ -83,9 +84,6 @@ angular.module('Divvy')
         }, function (error) {
           console.log(error);
         });
-
-
-
     }
 
   });

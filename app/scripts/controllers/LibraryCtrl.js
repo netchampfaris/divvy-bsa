@@ -7,17 +7,29 @@
  * # LibraryCtrl
  */
 angular.module('Divvy')
-  .controller('LibraryCtrl', function($scope, $state, books) {
+  .controller('LibraryCtrl', function($scope, books, appModalService, $localStorage) {
 
     console.log('in library');
-    $scope.platform = ionic.Platform.platform();
 
-    $scope.librarybooks = books.userbooks;
-    console.log($scope.librarybooks);
+    $scope.$storage = $localStorage;
 
-    $scope.addbook = function() {
+    $scope.editBook = function (book) {
 
-      $state.go('tab.addbook');
+      //using the same modal is awesome
+      var userBook = {};
+      userBook.status = book.status;
+      userBook.share = book.share || null;
+      var params = {
+        book: book.info,
+        userBook: userBook
+      };
+
+      appModalService
+        .show('templates/library/add-book-modal.html', 'ModalCtrl as vm', params)
+        .then(function(result){
+          console.log(result);
+        }, function (error) {
+          console.log(error);
+        });
     }
-
   });

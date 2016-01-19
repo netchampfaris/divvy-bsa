@@ -11,4 +11,4 @@ www/
 .sass-cache
 *.DS_Store
 *.log
-.idea/workspace.xml
+.idea

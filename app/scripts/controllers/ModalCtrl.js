@@ -11,8 +11,7 @@ angular.module('Divvy')
     var vm = this;
     vm.book = parameters.book;
     $scope.userBook = parameters.userBook;
-    console.log(vm.book);
-    console.log($scope.userBook);
+    console.log('in modal');
 
     $scope.add = function (userBook) {
       var valid = false;
@@ -55,9 +54,9 @@ angular.module('Divvy')
           if(res){
             console.log('yes');
             $ionicLoading.show();
-            addUserData(userBook).then(function () {
+            addUserData(userBook).then(function (userBook) {
               $ionicLoading.hide();
-              $scope.closeModal($scope.userBook);
+              $scope.closeModal(userBook);
             });
           }
           else
@@ -67,9 +66,13 @@ angular.module('Divvy')
 
       function addUserData(userBook) {
         var defer = $q.defer();
-        FirebaseRef.child('books/'+vm.book.ISBN_13 || vm.book.ISBN_10).update(vm.book, function () {
-          FirebaseRef.child('users/'+$localStorage.authData.uid+'/books/'+vm.book.ISBN_13 || vm.book.ISBN_10).update(userBook, function () {
-            defer.resolve();
+        var isbn = vm.book.ISBN_13 || vm.book.ISBN_10;
+        FirebaseRef.child('books/'+isbn).update(vm.book, function () {
+          FirebaseRef.child('users/'+$localStorage.authData.uid+'/books/'+isbn).update(userBook, function () {
+            userBook.info = vm.book;
+            $localStorage.userBooks[isbn] = userBook;
+            console.log('updated db with book info');
+            defer.resolve($localStorage.userBooks[isbn]);
           });
         });
         return defer.promise;
@@ -77,7 +80,7 @@ angular.module('Divvy')
     };
 
     $scope.close = function () {
-
+      $scope.closeModal('modal cancelled');
     }
 
   });
