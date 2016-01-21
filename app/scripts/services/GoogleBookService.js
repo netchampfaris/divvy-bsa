@@ -12,16 +12,18 @@ angular.module('Divvy')
   .factory('GoogleBookService', function($http, $q) {
 
     var endpoint = 'https://www.googleapis.com/books/v1/volumes?q=';
+    var startIndex = '&startIndex=';
 
     // public api
     return {
-      getEndpoint: function(searchTerms) {
+      getEndpoint: function(searchTerms, index) {
         var defer = $q.defer();
         searchTerms = encodeURI(searchTerms);
-        console.log(endpoint + searchTerms);
+        var url = endpoint + searchTerms + startIndex + index;
+        console.log(url);
         $http({
           method: 'GET',
-          url: endpoint + searchTerms
+          url: url
         }).then(function successCallback(response) {
           // this callback will be called asynchronously
           // when the response is available

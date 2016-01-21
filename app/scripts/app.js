@@ -16,19 +16,24 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
 
     $ionicPlatform.ready(function() {
       // save to use plugins here
+
+
+      //Fires when user logs in or logs out
+      Auth.$onAuth(function(authData) {
+        if (authData === null) {
+          console.log('Not logged in yet');
+          delete $localStorage.authData;
+          delete $localStorage.userBooks;
+          $state.go('login');
+        } else {
+          console.log('Logged in as', authData.uid);
+          $localStorage.authData = authData;
+          $state.go('tab.featured');
+        }
+      });
+
     });
 
-    Auth.$onAuth(function(authData) {
-      if (authData === null) {
-        console.log('Not logged in yet');
-        delete $localStorage.authData;
-        $state.go('login');
-      } else {
-        console.log('Logged in as', authData.uid);
-        $localStorage.authData = authData;
-        $state.go('tab.featured');
-      }
-    });
 
 
     $rootScope.confirmPopup = function (title, message, okText, okColor) {
@@ -39,6 +44,14 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
         okText: okText
       });
     };
+
+    $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
+      // We can catch the error thrown when the $requireAuth promise is rejected
+      // and redirect the user back to the home page
+      if (error === "AUTH_REQUIRED") {
+        $state.go('login');
+      }
+    });
 
     // add possible global event handlers here
     $rootScope.$on('loading:show', function() {
@@ -71,14 +84,24 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
       .state('login', {
         url: '/login',
         templateUrl: 'templates/login/login.html',
-        controller: 'LoginCtrl'
+        controller: 'LoginCtrl',
+        resolve: {
+          "currentAuth": function (Auth) {
+            return Auth.$waitForAuth();
+          }
+        }
       })
 
       // setup an abstract state for the tabs directive
       .state('tab', {
         url: '/tab',
         abstract: true,
-        templateUrl: 'templates/tabs.html'
+        templateUrl: 'templates/tabs.html',
+        resolve: {
+          "currentAuth": function (Auth) {
+            return Auth.$requireAuth();
+          }
+        }
       })
 
       // Each tab has its own nav history stack:
@@ -101,6 +124,7 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
 
       .state('tab.addbook', {
         url: '/library/addbook',
+        cache: false,
         views: {
           'tab-library': {
             templateUrl: 'templates/library/add-book.html',

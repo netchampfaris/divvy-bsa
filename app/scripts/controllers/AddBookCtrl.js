@@ -9,13 +9,7 @@
 angular.module('Divvy')
   .controller('AddBookCtrl', function($scope, GoogleBookService, $cordovaBarcodeScanner, $ionicPopup, $ionicModal, appModalService) {
 
-    $scope.searchResults = {};
-    $scope.searchbook = function(searchTerms) {
-      GoogleBookService.getEndpoint(searchTerms).then(function(data){
-        $scope.searchResults = data.data;
-        //console.log(data.data);
-      });
-    };
+    $scope.searchResults = [];
 
     $scope.scan = function() {
 
@@ -34,6 +28,20 @@ angular.module('Divvy')
       }
 
     };
+
+    $scope.search = {
+      index: 0
+    };
+
+    $scope.searchbook = function(searchTerms) {
+      GoogleBookService.getEndpoint(searchTerms, $scope.search.index).then(function(data){
+        $scope.searchResults = $scope.searchResults.concat(data.data.items);
+        console.log($scope.searchResults);
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+        $scope.search.index += 10;
+      });
+    };
+
 
     $ionicModal.fromTemplateUrl('templates/library/add-book-modal.html', {
       scope: $scope,

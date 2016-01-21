@@ -11,11 +11,16 @@
       Barcode Scanner
     </button>
     <ion-list>
-      <ion-item class="item-thumbnail-left" ng-repeat="item in searchResults.items" ng-click="addbook(item)" ng-if="item.volumeInfo.industryIdentifiers">
+      <ion-item class="item-thumbnail-left" ng-repeat="item in searchResults" ng-click="addbook(item)" ng-if="item.volumeInfo.industryIdentifiers">
         <img src="{{item.volumeInfo.imageLinks.smallThumbnail}}" alt="">
         <h2>{{item.volumeInfo.title}}</h2>
         <p><span ng-repeat="author in item.volumeInfo.authors">{{author}}{{(item.volumeInfo.authors.length>1)?',':''}} </span></p>
       </ion-item>
     </ion-list>
+    <ion-infinite-scroll
+      ng-if="search.index >= 10"
+      on-infinite="searchbook(keywords)"
+      distance="1%">
+    </ion-infinite-scroll>
   </ion-content>
 </ion-view>
