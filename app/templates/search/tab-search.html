@@ -1,13 +1,20 @@
 <ion-view view-title="Search">
   <ion-content>
     <div class="list">
-      <div class="item item-input-inset">
+      <div class="item item-input-inset item-borderless">
         <label class="item-input-wrapper">
-          <input type="text" placeholder="Search books" ng-model="keywords">
+          <input type="text" placeholder="Search books" ng-model="terms.keywords">
         </label>
-        <button class="button button-small button-assertive icon ion-search" ng-click="search(keywords)">
+        <button class="button button-small button-assertive icon ion-search" ng-click="search(terms)">
         </button>
       </div>
+      <ion-checkbox class="item-borderless" ng-model="terms.words">Match whole words</ion-checkbox>
+      <a class="item item-thumbnail-left" ng-repeat="book in data.hits">
+        <img class="book-avatar" ng-src="{{book._source.imageLinks.smallThumbnail}}" alt="">
+        <h2>{{book._source.title}}</h2>
+        <p>{{book._source.description}}</p>
+        <p>ISBN: {{book._source.ISBN_13 || book._source.ISBN_10}}</p>
+      </a>
     </div>
   </ion-content>
 </ion-view>

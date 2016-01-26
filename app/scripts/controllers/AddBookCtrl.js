@@ -33,7 +33,11 @@ angular.module('Divvy')
       index: 0
     };
 
-    $scope.searchbook = function(searchTerms) {
+    $scope.searchbook = function(searchTerms, caller) {
+      if(caller == 'button'){
+        $scope.searchResults = [];
+        $scope.search.index = 0;
+      }
       GoogleBookService.getEndpoint(searchTerms, $scope.search.index).then(function(data){
         $scope.searchResults = $scope.searchResults.concat(data.data.items);
         console.log($scope.searchResults);
