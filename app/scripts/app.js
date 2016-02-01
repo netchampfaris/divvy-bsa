@@ -152,6 +152,25 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
             controller: 'SearchCtrl'
           }
         }
+      })
+
+      .state('tab.bookview', {
+        url: '/search/book',
+        views: {
+          'tab-search': {
+            templateUrl: 'templates/search/tab-search-bookview.html',
+            controller: 'BookViewCtrl'
+          }
+        },
+        params: {
+          isbn: null
+        },
+        resolve: {
+          "book" : function($stateParams, BookInfo) {
+            console.log($stateParams);
+            return BookInfo.get($stateParams.isbn);
+          }
+        }
       });
 
     // if none of the above states are matched, use this as the fallback

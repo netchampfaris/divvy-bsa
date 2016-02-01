@@ -9,7 +9,7 @@
         </button>
       </div>
       <ion-checkbox class="item-borderless" ng-model="terms.words">Match whole words</ion-checkbox>
-      <a class="item item-thumbnail-left" ng-repeat="book in data.hits">
+      <a class="item item-thumbnail-left" ng-repeat="book in data.hits" ng-click="bookview(book._id)">
         <img class="book-avatar" ng-src="{{book._source.imageLinks.smallThumbnail}}" alt="">
         <h2>{{book._source.title}}</h2>
         <p>{{book._source.description}}</p>

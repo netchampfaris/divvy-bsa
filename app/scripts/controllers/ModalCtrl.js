@@ -66,14 +66,28 @@ angular.module('Divvy')
 
       function addUserData(userBook) {
         var defer = $q.defer();
-        var isbn = vm.book.ISBN_13 || vm.book.ISBN_10;
-        FirebaseRef.child('books/'+isbn).update(vm.book, function () {
-          FirebaseRef.child('users/'+$localStorage.authData.uid+'/books/'+isbn).update(userBook, function () {
-            userBook.info = vm.book;
-            $localStorage.userBooks[isbn] = userBook;
-            console.log('updated db with book info');
-            defer.resolve($localStorage.userBooks[isbn]);
-          });
+        var isbn = vm.book.ISBN_13 || vm.book.ISBN_10 || vm.book.OTHER;
+        FirebaseRef.child('books/'+isbn).update(vm.book, function (error) {
+          if(error) console.log(error);
+          else
+            FirebaseRef.child('users/'+$localStorage.authData.uid+'/books/'+isbn).update(userBook, function (err) {
+              if(err) console.log(err);
+              else{
+                userBook.info = vm.book;
+                $localStorage.userBooks[isbn] = userBook;
+                console.log('updated db with book info',userBook);
+
+                var bookowner = {};
+                bookowner[$localStorage.authData.uid] = (userBook.share != null)? userBook.share.type : 'notshared';
+                FirebaseRef.child('bookowners/'+isbn).update(bookowner, function (e) {
+                  if(e) console.log(e);
+                  else {
+                    defer.resolve($localStorage.userBooks[isbn]);
+                    console.log('updated db with bookowner info');
+                  }
+                });
+              }
+            });
         });
         return defer.promise;
       }

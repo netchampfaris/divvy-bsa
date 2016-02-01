@@ -7,7 +7,7 @@
  * # SearchCtrl
  */
 angular.module('Divvy')
-  .controller('SearchCtrl', function($scope, FirebaseUrl, $ionicLoading) {
+  .controller('SearchCtrl', function($scope, FirebaseUrl, $ionicLoading, $state) {
 
     console.log('in search');
     $scope.terms = {};
@@ -18,6 +18,9 @@ angular.module('Divvy')
       $scope.data = {};
       if(terms.keywords)
         doSearch('firebase', 'book', buildQuery(terms.keywords, terms.words));
+    };
+    $scope.bookview = function (id) {
+      $state.go('tab.bookview', { isbn: id });
     };
 
     // display search results

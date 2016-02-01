@@ -1,0 +1,14 @@
+<ion-view view-title="{{book.title}}">
+  <ion-content>
+    <div class="list">
+      <li class="item item-thumbnail-left">
+        <img class="book-avatar" src="{{book.imageLinks.smallThumbnail}}" alt="">
+        <h2><span ng-repeat="author in book.authors">{{author}}{{(vm.book.authors.length>1)?',':''}} </span></h2>
+        <p>ISBN: {{book.ISBN_13 || book.ISBN_10 || book.OTHER}}</p>
+      </li>
+      <li class="item item-body">
+        Description: <p>{{book.description}}</p>
+      </li>
+    </div>
+  </ion-content>
+</ion-view>
