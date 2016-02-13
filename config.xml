@@ -44,5 +44,5 @@
   </platform>
   <allow-intent href="*.firebaseio.com"/>
   <allow-intent href="auth.firebase.com"/>
-  <allow-navigation href="http://*/*" />
+  <allow-navigation href="http://*/*"/>
 </widget>

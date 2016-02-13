@@ -10,8 +10,16 @@ angular.module('Divvy')
   .controller('ModalCtrl', function($scope, parameters, $rootScope, FirebaseRef, $ionicLoading, $q, $localStorage) {
     var vm = this;
     vm.book = parameters.book;
+    vm.book.descLimit = 98;
     $scope.userBook = parameters.userBook;
     console.log('in modal');
+    if($localStorage.userBooks == null){
+      $localStorage.userBooks = {};
+    }
+
+    $scope.toggleDesc = function (desc) {
+      vm.book.descLimit = (desc == 98) ? null : 98;
+    }
 
     $scope.add = function (userBook) {
       var valid = false;
@@ -74,11 +82,12 @@ angular.module('Divvy')
               if(err) console.log(err);
               else{
                 userBook.info = vm.book;
+                $localStorage.userBooks[isbn] = {};
                 $localStorage.userBooks[isbn] = userBook;
                 console.log('updated db with book info',userBook);
 
                 var bookowner = {};
-                bookowner[$localStorage.authData.uid] = (userBook.share != null)? userBook.share.type : 'notshared';
+                bookowner[$localStorage.authData.uid] = (userBook.share != null)? true : false; // true for shared, false for not shared
                 FirebaseRef.child('bookowners/'+isbn).update(bookowner, function (e) {
                   if(e) console.log(e);
                   else {

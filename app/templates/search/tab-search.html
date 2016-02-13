@@ -13,7 +13,7 @@
         <img class="book-avatar" ng-src="{{book._source.imageLinks.smallThumbnail}}" alt="">
         <h2>{{book._source.title}}</h2>
         <p>{{book._source.description}}</p>
-        <p>ISBN: {{book._source.ISBN_13 || book._source.ISBN_10}}</p>
+        <p>ISBN: {{book._source.ISBN_13 || book._source.ISBN_10 || book._source.OTHER }}</p>
       </a>
     </div>
   </ion-content>

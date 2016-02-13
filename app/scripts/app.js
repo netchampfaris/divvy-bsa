@@ -10,9 +10,9 @@
  */
 
 
-angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'firebase'])
+angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'firebase', 'ion-place-tools'])
 
-  .run(function($ionicPlatform, $ionicLoading, $rootScope, Auth, $localStorage, $state, $ionicPopup) {
+  .run(function($ionicPlatform, $ionicLoading, $rootScope, Auth, $localStorage, $state, $ionicPopup, FirebaseRef, appModalService) {
 
     $ionicPlatform.ready(function() {
       // save to use plugins here
@@ -27,6 +27,20 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
         } else {
           console.log('Logged in as', authData.uid);
           $localStorage.authData = authData;
+          FirebaseRef.child('users/'+authData.uid+'/name').once('value', function (data) {
+            if(data.val() == null){
+              var params = {
+                name: authData[authData.provider].displayName
+              };
+              appModalService
+                .show('templates/login/userinfo.html', 'UserInfoCtrl', params)
+                .then(function(result){
+                  console.log(result);
+                }, function (error) {
+                  console.log(error);
+                });
+            }
+          });
           $state.go('tab.featured');
         }
       });
@@ -167,6 +181,7 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
 
       .state('tab.bookview', {
         url: '/search/book',
+        cache: false,
         views: {
           'tab-search': {
             templateUrl: 'templates/search/tab-search-bookview.html',
@@ -177,7 +192,7 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
           isbn: null
         },
         resolve: {
-          "book" : function($stateParams, BookInfo) {
+          "bookinfo" : function($stateParams, BookInfo) {
             console.log($stateParams);
             return BookInfo.get($stateParams.isbn);
           }
