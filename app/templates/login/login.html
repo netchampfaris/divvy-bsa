@@ -3,17 +3,17 @@
       <section class="login-container">
         <div class="social-buttons padding">
           <form action="">
-            <ion-list>
-              <ion-item class="item item-input">
-                <input type="text" placeholder="email" ng-model="user.email">
-              </ion-item>
-              <ion-item class="item item-input">
+            <div class="list" ng-init="user = {}">
+              <label class="item item-input">
+                <input type="email" placeholder="email" ng-model="user.email">
+              </label>
+              <label class="item item-input">
                 <input type="password" placeholder="password" ng-model="user.password">
-              </ion-item>
-            </ion-list>
+              </label>
+            </div>
             <div class="button-bar">
-              <button class="button button-block button-outline button-light">Sign in</button>
-              <button class="button button-block button-outline button-light" ng-click="createUser()">Create account</button>
+              <button class="button button-block button-outline button-light" type="submit" ng-click="emailLogin(user)">Sign in</button>
+              <button class="button button-block button-outline button-light" ng-click="createUser(user)">Create account</button>
             </div>
           </form>
           <div class="button-bar">

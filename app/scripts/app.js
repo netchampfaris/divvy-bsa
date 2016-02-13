@@ -17,7 +17,6 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
     $ionicPlatform.ready(function() {
       // save to use plugins here
 
-
       //Fires when user logs in or logs out
       Auth.$onAuth(function(authData) {
         if (authData === null) {
@@ -32,8 +31,13 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
         }
       });
 
+      $rootScope.logout = function () {
+        $rootScope.confirmPopup('Logout ?','','Logout', 'assertive').then(function (res) {
+          if(res)
+            Auth.$unauth();
+        })
+      }
     });
-
 
 
     $rootScope.confirmPopup = function (title, message, okText, okColor) {
@@ -42,6 +46,13 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
         template: message,
         okType: 'button-' + okColor,
         okText: okText
+      });
+    };
+
+    $rootScope.alertPopup = function (title, message) {
+      return $ionicPopup.alert({
+        title:title,
+        template:message
       });
     };
 
