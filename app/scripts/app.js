@@ -88,12 +88,12 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
     });
 
     $rootScope.$on('$stateChangeStart', function () {
-      $rootScope.$broadcast('loading:show');
+      $ionicLoading.show();
       console.log('please wait...');
     });
 
     $rootScope.$on('$stateChangeSuccess', function () {
-      $rootScope.$broadcast('loading:hide');
+      $ionicLoading.hide();
       console.log('done');
     });
 
@@ -181,7 +181,7 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
 
       .state('tab.bookview', {
         url: '/search/book',
-        cache: false,
+        cache: true,
         views: {
           'tab-search': {
             templateUrl: 'templates/search/tab-search-bookview.html',

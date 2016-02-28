@@ -21,7 +21,7 @@ angular.module('Divvy')
         }
         else {
           UserBooks.get($localStorage.authData.uid).then(function (userBooks) {
-            $localStorage.userBooks = userBooks.userbooks;
+            $localStorage.userBooks = userBooks;
             defer.resolve();
           }, function (err) {
             defer.reject();

@@ -14,7 +14,11 @@ angular.module('Divvy')
     var getUserBooks = function (id) {
       var defer = $q.defer();
       FirebaseRef.child('users/'+id+'/books').once('value', function (data) {
-        var userbooks = data.val();
+        var userbooks = {};
+        data.forEach(function (child) {
+          userbooks[child.key()] = {};
+          userbooks[child.key()].userBook = child.val();
+        });
         defer.resolve(userbooks);
       }, function (err) {
         defer.reject();
@@ -51,9 +55,7 @@ angular.module('Divvy')
               userbooks[isbn]['info'] = userbooksinfo[i];
             }
             console.log('fetched userbooks from db');
-            defer.resolve({
-              userbooks: userbooks
-            });
+            defer.resolve(userbooks);
           })
         });
         return defer.promise;

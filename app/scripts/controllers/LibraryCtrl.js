@@ -16,12 +16,9 @@ angular.module('Divvy')
     $scope.editBook = function (book) {
 
       //using the same modal is awesome
-      var userBook = {};
-      userBook.status = book.status;
-      userBook.share = book.share || null;
       var params = {
         book: book.info,
-        userBook: userBook
+        userBook: book.userBook
       };
 
       appModalService

@@ -1,58 +1,64 @@
 <ion-modal-view>
   <ion-header-bar class="bar-positive">
-    <h1 class="title">Add book to your library</h1>
+    <h1 class="title">Add book</h1>
     <button class="button button-clear button-primary" ng-click="close()">Cancel</button>
   </ion-header-bar>
   <ion-content>
-    <li class="item item-thumbnail-left">
-      <img class="book-avatar" src="{{vm.book.imageLinks.smallThumbnail}}" alt="">
-      <h2>{{vm.book.title}}</h2>
-      <p><span ng-repeat="author in vm.book.authors">{{author}}{{(vm.book.authors.length>1)?',':''}} </span></p>
-      <p>ISBN: {{vm.book.ISBN_13 || vm.book.ISBN_10 || vm.book.OTHER}}</p>
-    </li>
-    <li class="item item-body" ng-click="toggleDesc(vm.book.descLimit)">
-      Description: <p>{{vm.book.description | limitTo:vm.book.descLimit}}</p>
-    </li>
-    <li class="item">
-      Status
-      <div class="button-bar padding">
-        <a grouped-radio="'reading'" ng-model="userBook.status">Reading</a>
-        <a grouped-radio="'dropped'" ng-model="userBook.status">Dropped</a>
-        <a grouped-radio="'completed'" ng-model="userBook.status">Completed</a>
-      </div>
-    </li>
-    <li class="item item-toggle">
-      Share book ?
-      <label class="toggle toggle-assertive">
-        <input type="checkbox" ng-model="userBook.share.option">
-        <div class="track">
-          <div class="handle"></div>
+
+      <li class="item item-thumbnail-left">
+        <img class="book-avatar" src="{{vm.book.imageLinks.smallThumbnail}}" alt="">
+        <h2>{{vm.book.title}}</h2>
+        <p><span ng-repeat="author in vm.book.authors">{{author}}{{(vm.book.authors.length>1)?',':''}} </span></p>
+        <p>ISBN: {{vm.book.ISBN_13 || vm.book.ISBN_10 || vm.book.OTHER}}</p>
+      </li>
+      <li class="item item-body" ng-click="toggleDesc(vm.book.descLimit)">
+        Description: <p>{{vm.book.description | limitTo:vm.book.descLimit}}</p>
+      </li>
+      <li class="item">
+        Status
+        <div class="button-bar padding">
+          <a grouped-radio="'reading'" ng-model="userBook.status">Reading</a>
+          <a grouped-radio="'dropped'" ng-model="userBook.status">Dropped</a>
+          <a grouped-radio="'completed'" ng-model="userBook.status">Completed</a>
         </div>
-      </label>
-    </li>
-    <li class="item" ng-if="userBook.share.option">
-      <div class="button-bar padding" >
-        <a grouped-radio="'sell'" ng-model="userBook.share.type" ng-click="userBook.share.rent = null">Sell book</a>
-        <a grouped-radio="'rent'" ng-model="userBook.share.type" ng-click="userBook.share.sell = null">Put on rent</a>
+      </li>
+      <li class="item item-toggle">
+        Share book ?
+        <label class="toggle toggle-assertive">
+          <input type="checkbox" ng-model="userBook.isShared" ng-change="resetUserBook(userBook)">
+          <div class="track">
+            <div class="handle"></div>
+          </div>
+        </label>
+      </li>
+      <li class="item" ng-if="userBook.isShared">
+        <div class="button-bar padding" >
+          <a grouped-radio="'sell'" ng-model="userBook.shareType" ng-click="resetRent(userBook)">Sell book</a>
+          <a grouped-radio="'rent'" ng-model="userBook.shareType" ng-click="resetSell(userBook)">Put on rent</a>
+        </div>
+      </li>
+      <div ng-if="userBook.isShared">
+        <label class="item item-input" ng-if="userBook.shareType == 'sell'">
+          <span class="input-label">Price</span>
+          <input type="number" min="1" ng-model="userBook.sellPrice">
+        </label>
+        <label class="item item-input" ng-if="userBook.shareType == 'rent'">
+          <span class="input-label">Deposit</span>
+          <input type="number" min="1" ng-model="userBook.rentDeposit">
+        </label>
+        <label class="item item-input" ng-if="userBook.shareType == 'rent'">
+          <span class="input-label">Rent per day</span>
+          <input type="number" min="1" ng-model="userBook.rentPrice">
+        </label>
       </div>
-    </li>
-    <div ng-if="userBook.share.option">
-      <label class="item item-input" ng-if="userBook.share.type == 'sell'">
-        <span class="input-label">Price</span>
-        <input type="number" min="1" ng-model="userBook.share.sell.price">
-      </label>
-      <label class="item item-input" ng-if="userBook.share.type == 'rent'">
-        <span class="input-label">Deposit</span>
-        <input type="number" min="1" ng-model="userBook.share.rent.deposit">
-      </label>
-      <label class="item item-input" ng-if="userBook.share.type == 'rent'">
-        <span class="input-label">Rent per day</span>
-        <input type="number" min="1" ng-model="userBook.share.rent.price">
-      </label>
-    </div>
-    <div class="row">
-      <button class="col-50 col-offset-25 button button-block button-clear button-assertive icon-left ion-android-add-circle" ng-click="add(userBook)">SAVE TO LIBRARY</button>
-    </div>
+      <div class="row padding">
+        <button class="button button-small button-outline button-assertive center"
+                ng-click="add(userBook)"
+                ng-disabled="!isValidInput(userBook)">
+          {{'Save to library' | uppercase}}
+        </button>
+      </div>
+
 
   </ion-content>
 </ion-modal-view>

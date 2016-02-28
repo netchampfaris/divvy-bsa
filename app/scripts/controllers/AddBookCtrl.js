@@ -80,8 +80,7 @@ angular.module('Divvy')
       }
 
       var userBook = {
-        status: 'reading',
-        share: null
+        status: 'reading'
       };
 
       var params = {
