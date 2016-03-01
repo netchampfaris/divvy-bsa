@@ -28,5 +28,23 @@ angular.module('Divvy')
         }, function (error) {
           console.log(error);
         });
+    };
+
+    $scope.openUserProfile = function() {
+      var params = _.cloneDeep($localStorage.userInfo);
+
+      appModalService
+        .show('templates/user/user-info.html', 'UserInfoCtrl', params)
+        .then(function(result){
+          console.log(result);
+        }, function (error) {
+          console.log(error);
+        });
+
     }
+
+    $scope.atLeastOneBook = function () {
+      return !(_.isEmpty($localStorage.userBooks));
+    }
+
   });

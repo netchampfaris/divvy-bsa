@@ -39,6 +39,30 @@
   bottom: 60px;
 }
 
+/*edit-profile-button*/
+.edit-profile {
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 13px;
+  background-color: #efeff4;
+  color: #555;
+
+  .button-small {
+    padding: 2px 4px 1px !important;
+    min-width: 28px !important;
+    min-height: 30px !important;
+    font-size: 12px !important;
+    line-height: 26px !important;
+    margin-top: 2px;
+  }
+
+  .button-small .icon:before, .button-small.icon:before, .button-small.icon-left:before, .button-small.icon-right:before {
+    font-size: 16px;
+    line-height: 19px;
+    margin-top: 3px;
+  }
+}
+
 /*add-book-modal*/
 .button-bar > .button:last-child {
   border-radius: 0px 15px 15px 0px !important;

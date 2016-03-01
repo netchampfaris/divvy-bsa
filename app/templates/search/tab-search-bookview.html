@@ -14,9 +14,11 @@
         Available with:
       </div>
       <div class="list">
-        <div class="item item-icon-left" ng-repeat="user in owners">
-          <i class="icon ion-person"></i>
-          <h2>{{user.name}}</h2>
+        <div class="item item-avatar-left" ng-repeat="user in owners" ng-click="startChat(user)">
+          <img ng-src="{{user.img}}" alt="{{user.name}}">
+          <h2>
+            {{user.name}}
+          </h2>
           <p>{{pricingInfo(user.pref)}}</p>
         </div>
       </div>

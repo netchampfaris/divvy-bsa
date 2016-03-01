@@ -7,7 +7,7 @@
  * # AddBookCtrl
  */
 angular.module('Divvy')
-  .controller('AddBookCtrl', function($scope, GoogleBookService, $cordovaBarcodeScanner, $ionicPopup, $ionicModal, appModalService) {
+  .controller('AddBookCtrl', function($scope, $rootScope, GoogleBookService, $cordovaBarcodeScanner, $ionicPopup, $ionicModal, appModalService) {
 
     $scope.searchResults = [];
 
@@ -35,6 +35,7 @@ angular.module('Divvy')
 
     $scope.searchbook = function(searchTerms, caller) {
       if(caller == 'button'){
+        $rootScope.$broadcast('loading:show');
         $scope.searchResults = [];
         $scope.search.index = 0;
       }
@@ -43,6 +44,7 @@ angular.module('Divvy')
         console.log($scope.searchResults);
         $scope.$broadcast('scroll.infiniteScrollComplete');
         $scope.search.index += 10;
+        $rootScope.$broadcast('loading:hide');
       });
     };
 

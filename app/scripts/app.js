@@ -12,10 +12,17 @@
 
 angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'firebase', 'ion-place-tools'])
 
-  .run(function($ionicPlatform, $ionicLoading, $rootScope, Auth, $localStorage, $state, $ionicPopup, FirebaseRef, appModalService) {
+  .run(function($ionicPlatform, $ionicLoading, $rootScope, Auth, $localStorage, $state, $ionicPopup, FirebaseRef, appModalService, $q) {
 
     $ionicPlatform.ready(function() {
       // save to use plugins here
+      if (window.StatusBar) {
+        if (ionic.Platform.isAndroid()) {
+          StatusBar.backgroundColorByHexString("#303F9F");
+        } else {
+          StatusBar.styleLightContent();
+        }
+      }
 
       //Fires when user logs in or logs out
       Auth.$onAuth(function(authData) {
@@ -23,23 +30,43 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
           console.log('Not logged in yet');
           delete $localStorage.authData;
           delete $localStorage.userBooks;
+          delete $localStorage.userInfo;
           $state.go('login');
         } else {
+          console.log(authData);
           console.log('Logged in as', authData.uid);
           $localStorage.authData = authData;
-          FirebaseRef.child('users/'+authData.uid+'/name').once('value', function (data) {
-            if(data.val() == null){
-              var params = {
-                name: authData[authData.provider].displayName
-              };
-              appModalService
-                .show('templates/login/userinfo.html', 'UserInfoCtrl', params)
-                .then(function(result){
-                  console.log(result);
-                }, function (error) {
-                  console.log(error);
-                });
-            }
+          FirebaseRef.child('users/'+authData.uid+'/name').once('value')
+            .then(function (data) {
+              if(data.val() == null){
+                var params = {
+                  name: authData[authData.provider].displayName,
+                  img: authData[authData.provider].profileImageURL,
+                  location: null
+                };
+                appModalService
+                  .show('templates/user/user-info.html', 'UserInfoCtrl', params)
+                  .then(function(result){
+                    console.log(result);
+                  }, function (error) {
+                    console.log(error);
+                  });
+              }
+              else{
+                $q.all([
+                  FirebaseRef.child('users/'+authData.uid+'/name').once('value'),
+                  FirebaseRef.child('users/'+authData.uid+'/img').once('value'),
+                  FirebaseRef.child('users/'+authData.uid+'/location').once('value')
+                ])
+                  .then(function (val) {
+                    $localStorage.userInfo = {
+                      name: val[0].val(),
+                      img: val[1].val(),
+                      location: val[2].val()
+                    };
+                    console.log('fetched userInfo');
+                  });
+              }
           });
           $state.go('tab.featured');
         }
@@ -89,17 +116,15 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
 
     $rootScope.$on('$stateChangeStart', function () {
       $ionicLoading.show();
-      console.log('please wait...');
     });
 
     $rootScope.$on('$stateChangeSuccess', function () {
       $ionicLoading.hide();
-      console.log('done');
     });
 
   })
 
-  .config(function($httpProvider, $stateProvider, $urlRouterProvider) {
+  .config(function($httpProvider, $stateProvider, $urlRouterProvider, $ionicConfigProvider) {
     // register $http interceptors, if any. e.g.
     // $httpProvider.interceptors.push('interceptor-name');
 
@@ -181,7 +206,6 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
 
       .state('tab.bookview', {
         url: '/search/book',
-        cache: true,
         views: {
           'tab-search': {
             templateUrl: 'templates/search/tab-search-bookview.html',
@@ -197,13 +221,36 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
             return BookInfo.get($stateParams.isbn);
           }
         }
+      })
+
+      .state('userChat', {
+        url: '/userChat',
+        templateUrl: 'templates/user/user-chat.html',
+        controller: 'UserChatCtrl',
+        params: {
+          chatFrom: null,
+          chatTo: null
+        },
+        resolve: {
+          "chatInfo" : function($stateParams, ChatInfo) {
+            return ChatInfo.get($stateParams);
+          }
+        }
+      })
+
+      .state('userChatList', {
+        url: '/userChatList',
+        templateUrl: 'templates/user/user-chat-list.html',
+        controller: 'UserChatListCtrl'
       });
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/login');
 
+    $ionicConfigProvider.scrolling.jsScrolling(false);
+
     //show loading indicators before $http request
-    $httpProvider.interceptors.push(function($rootScope) {
+    /*$httpProvider.interceptors.push(function($rootScope) {
       return {
         request: function(config) {
           $rootScope.$broadcast('loading:show');
@@ -214,7 +261,7 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
           return response;
         }
       }
-    });
+    });*/
   });
 
 

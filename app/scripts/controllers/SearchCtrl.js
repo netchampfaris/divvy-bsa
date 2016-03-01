@@ -7,7 +7,7 @@
  * # SearchCtrl
  */
 angular.module('Divvy')
-  .controller('SearchCtrl', function($scope, FirebaseUrl, $ionicLoading, $state) {
+  .controller('SearchCtrl', function($scope, FirebaseUrl, $ionicLoading, $state, $rootScope) {
 
     console.log('in search');
     $scope.terms = {};
@@ -25,7 +25,7 @@ angular.module('Divvy')
 
     // display search results
     function doSearch(index, type, query) {
-      $ionicLoading.show();
+      $rootScope.$broadcast('loading:show');
       var ref = new Firebase(FirebaseUrl+'/search');
       var key = ref.child('request').push({ index: index, type: type, query: query }).key();
       console.log('search', key, { index: index, type: type, query: query });
@@ -39,7 +39,7 @@ angular.module('Divvy')
       snap.ref().remove();
 
       console.log('result', snap.key(), snap.val());
-      $ionicLoading.hide();
+      $rootScope.$broadcast('loading:hide');
     }
 
     function buildQuery(term, words) {

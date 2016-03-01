@@ -67,6 +67,8 @@ angular.module('Divvy')
           addUserData(userBook).then(function (userBook) {
             $ionicLoading.hide();
             $scope.closeModal(userBook);
+          }, function (err) {
+            $rootScope.alertPopup('Error', err);
           });
         }
         else
@@ -90,7 +92,7 @@ angular.module('Divvy')
         var defer = $q.defer();
         var isbn = vm.book.ISBN_13 || vm.book.ISBN_10 || vm.book.OTHER;
         var bookowner = {};
-        bookowner[$localStorage.authData.uid] = userBook.isShared; // true for shared, false for not shared
+        bookowner[$localStorage.authData.uid] = userBook.isShared || false; // true for shared, false for not shared
 
         $q.all([
           addBook(isbn, vm.book),
@@ -116,6 +118,6 @@ angular.module('Divvy')
 
     $scope.close = function () {
       $scope.closeModal('modal cancelled');
-    }
+    };
 
   });

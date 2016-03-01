@@ -7,21 +7,20 @@
  * # UserInfoCtrl
  */
 angular.module('Divvy')
-  .controller('UserInfoCtrl', function($scope, parameters, $q, $localStorage, FirebaseRef) {
+  .controller('UserInfoCtrl', function($scope, parameters, $q, $localStorage, FirebaseRef, StatusbarColor) {
 
     console.log('in userinfo modal');
 
-    $scope.userInfo = {
-      name: parameters.name,
-      location: null
-    }
+    $scope.userInfo = parameters || {};
+
+    console.log($scope.userInfo);
 
     $scope.locationSelected = function (locString) {
       latlon(locString).then(function (coords) {
         $scope.userInfo.location = {
           name: locString,
           coords: coords
-        }
+        };
         console.log($scope.userInfo);
       });
     };
@@ -45,12 +44,23 @@ angular.module('Divvy')
     }
 
     $scope.save = function(userInfo){
-      if(userInfo.location)
+      if(userInfo.location && userInfo.name)
         FirebaseRef.child('users/'+$localStorage.authData.uid).update(userInfo, function (err) {
           if(err) console.log(err);
-          else $scope.closeModal('userinfo modal closed');
+          else {
+            $localStorage.userInfo = userInfo;
+            $scope.close();
+          }
         });
-    }
+    };
 
+    $scope.close = function () {
+      StatusbarColor.set('energized');
+      $scope.closeModal('closed user profile');
+    };
+
+    $scope.$on('modal.shown', function () {
+      StatusbarColor.set('balanced');
+    });
 
   });

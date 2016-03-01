@@ -1,0 +1,28 @@
+<ion-modal-view>
+  <ion-header-bar class="bar-assertive">
+    <h1 class="title">Enter details</h1>
+    <button class="button" ng-click="close()">Cancel</button>
+  </ion-header-bar>
+  <ion-content>
+    <div class="item item-body row user-profile-top">
+      <img ng-src="{{userInfo.img}}" alt="" class="full-image user-profile-image col col-40">
+      <div class="col" ng-init="input.show = false">
+        <div class="item item-borderless row padding-vertical" ng-show="!input.show">{{userInfo.name}}</div>
+        <p class="row"><i class="icon ion-ios-location"></i>&nbsp;{{userInfo.location.name}}</p>
+        <button class="button button-small icon-left ion-edit"
+                ng-click="profile.edit = !profile.edit"
+                ng-show="!profile.edit">{{'Edit' | uppercase}}</button>
+        <button class="button button-small icon-left ion-upload"
+                ng-click="save(userInfo)"
+                ng-show="profile.edit">{{'Save' | uppercase}}</button>
+      </div>
+    </div>
+    <div class="list user-profile-bottom" ng-if="profile.edit">
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Name:</span>
+        <input type="text" ng-model="userInfo.name" autofocus>
+      </label>
+      <ion-google-place placeholder="Enter your Location" ng-model="yourModel" location-changed="locationSelected"/>
+    </div>
+  </ion-content>
+</ion-modal-view>

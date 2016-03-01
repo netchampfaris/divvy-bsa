@@ -9,7 +9,7 @@
  *
  */
 angular.module('Divvy')
-  .factory('BookInfo', function($q, FirebaseRef) {
+  .factory('BookInfo', function($q, FirebaseRef, $localStorage) {
 
 
     return {
@@ -26,14 +26,26 @@ angular.module('Divvy')
             snap.forEach(function (child) {
               var user = child.key();
               var pref = child.val(); //true for shared, false for not shared
-              if(pref){
+              if(pref && user != $localStorage.authData.uid){
+
                 var dfd = $q.defer();
-                FirebaseRef.child('users/'+user+'/books/'+isbn).once('value', function (snap) {
-                  FirebaseRef.child('users/'+user+'/name').once('value', function (name) {
-                    bookowners.push({userid: user, name: name.val(), pref: snap.val()});
+
+                $q.all([
+                  FirebaseRef.child('users/'+user+'/books/'+isbn).once('value'),
+                  FirebaseRef.child('users/'+user+'/name').once('value'),
+                  FirebaseRef.child('users/'+user+'/img').once('value'),
+                  FirebaseRef.child('users/'+user+'/location').once('value')
+                ])
+                  .then(function (response) {
+                    bookowners.push({
+                      uid: user,
+                      pref: response[0].val(),
+                      name: response[1].val(),
+                      img: response[2].val(),
+                      location: response[3].val()
+                    });
                     dfd.resolve();
                   });
-                });
                 promises.push(dfd.promise);
               }
             });

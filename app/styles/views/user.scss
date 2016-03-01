@@ -1,0 +1,21 @@
+.text-rtl {
+  direction: rtl;
+}
+/*user-profile*/
+.user-profile-top {
+  p {
+    margin-top: 0 !important;
+  }
+}
+
+.user-profile-bottom {
+  border-top: 0;
+  input[type="text"] {
+    width: 100%;
+  }
+}
+
+.user-profile-image {
+  max-height: 40vw;
+  width: auto;
+}
