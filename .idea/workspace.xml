@@ -8,31 +8,11 @@
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/scripts/controllers/UserChatCtrl.js" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/scripts/controllers/UserChatListCtrl.js" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/scripts/services/ChatInfo.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/scripts/services/Colors.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/scripts/services/StatusbarColor.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/styles/views/user.scss" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/templates/user/user-chat-list.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/templates/user/user-chat.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/templates/user/user-info.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ionic.project.dev" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/templates/login/userinfo.html" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/scripts/app.js" afterPath="$PROJECT_DIR$/app/scripts/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/scripts/controllers/AddBookCtrl.js" afterPath="$PROJECT_DIR$/app/scripts/controllers/AddBookCtrl.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/scripts/controllers/BookViewCtrl.js" afterPath="$PROJECT_DIR$/app/scripts/controllers/BookViewCtrl.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/scripts/controllers/LibraryCtrl.js" afterPath="$PROJECT_DIR$/app/scripts/controllers/LibraryCtrl.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/scripts/controllers/ModalCtrl.js" afterPath="$PROJECT_DIR$/app/scripts/controllers/ModalCtrl.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/scripts/controllers/SearchCtrl.js" afterPath="$PROJECT_DIR$/app/scripts/controllers/SearchCtrl.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/scripts/controllers/UserInfoCtrl.js" afterPath="$PROJECT_DIR$/app/scripts/controllers/UserInfoCtrl.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/scripts/services/BookInfo.js" afterPath="$PROJECT_DIR$/app/scripts/services/BookInfo.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/styles/main.scss" afterPath="$PROJECT_DIR$/app/styles/main.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/styles/views/library.scss" afterPath="$PROJECT_DIR$/app/styles/views/library.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/styles/views/login.scss" afterPath="$PROJECT_DIR$/app/styles/views/login.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/library/tab-library.html" afterPath="$PROJECT_DIR$/app/templates/library/tab-library.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/search/tab-search-bookview.html" afterPath="$PROJECT_DIR$/app/templates/search/tab-search-bookview.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/search/tab-search.html" afterPath="$PROJECT_DIR$/app/templates/search/tab-search.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/tabs.html" afterPath="$PROJECT_DIR$/app/templates/tabs.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bower.json" afterPath="$PROJECT_DIR$/bower.json" />
     </list>
     <ignored path="divvy-bsa.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -593,7 +573,13 @@
       <option name="project" value="LOCAL" />
       <updated>1456672694585</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="fixed loading indicators, edit profile on library page">
+      <created>1456854634258</created>
+      <option name="number" value="00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1456854634258</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TodoView">
@@ -612,6 +598,7 @@
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16204691" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32827735" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4242902" sideWeight="0.5087848" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3163597" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -620,7 +607,6 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.11796537" sideWeight="0.49121523" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32827735" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -651,7 +637,8 @@
     <MESSAGE value="added login/register using email" />
     <MESSAGE value="BookView functionality completed" />
     <MESSAGE value="simplified userBook model, rewritten code in promise style" />
-    <option name="LAST_COMMIT_MESSAGE" value="simplified userBook model, rewritten code in promise style" />
+    <MESSAGE value="fixed loading indicators, edit profile on library page" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed loading indicators, edit profile on library page" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

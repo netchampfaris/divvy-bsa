@@ -7,7 +7,7 @@
  * # BookViewCtrl
  */
 angular.module('Divvy')
-  .controller('BookViewCtrl', function($scope, FirebaseUrl, $ionicLoading, bookinfo) {
+  .controller('BookViewCtrl', function($scope, FirebaseUrl, $ionicLoading, bookinfo, $state, $localStorage) {
 
     $scope.book = bookinfo.book;
     $scope.owners = bookinfo.bookowners;
@@ -21,6 +21,14 @@ angular.module('Divvy')
         return 'Buy for '+userPref.sellPrice+'/-';
       else if(userPref.shareType == 'rent')
         return 'Rent on '+userPref.rentPrice+'/day with '+userPref.rentDeposit+' deposit';
+    };
+
+    $scope.startChat = function (user) {
+      console.log('here');
+      $state.go('userChat', {
+        chatFrom: $localStorage.authData.uid,
+        chatTo: user.uid
+      });
     }
 
   });

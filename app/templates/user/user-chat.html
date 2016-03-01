@@ -1,0 +1,22 @@
+<ion-view view-title="Chat">
+  <ion-content delegate-handle="chatListView" has-bouncing="true">
+    <div class="list">
+      <div class="item item-borderless" ng-class="avatarSide(chat.sender)" ng-repeat="chat in chatList">
+        <img ng-src="{{imageUrl(chat.sender)}}">
+        <!--<h2>{{name(chat.sender)}}</h2>-->
+        <h2 class="right">{{chat.message}}</h2>
+        <p class="royal">{{chat.timestamp | date:'hh:mm'}}</p>
+      </div>
+    </div>
+  </ion-content>
+  <form ng-submit="sendChat(message)">
+    <ion-footer-bar class="item-input-inset" keyboard-attach>
+      <label class="item-input-wrapper">
+        <input type="text" placeholder="Send a message.." ng-model="message">
+      </label>
+      <button class="button button-small button-clear" type="submit">
+        Send
+      </button>
+    </ion-footer-bar>
+  </form>
+</ion-view>
