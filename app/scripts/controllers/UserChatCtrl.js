@@ -7,17 +7,16 @@
  * # UserChatCtrl
  */
 angular.module('Divvy')
-  .controller('UserChatCtrl', function($scope, $ionicHistory, chatInfo, FirebaseRef, $firebaseArray,
-                                       $localStorage, $ionicScrollDelegate, $timeout) {
+  .controller('UserChatCtrl', function($scope, $ionicHistory, chatInfo, FirebaseRef, $firebaseArray, $localStorage, $ionicScrollDelegate) {
 
     console.log('in user-chat');
     $scope.goBack = function () {
       $ionicHistory.goBack();
     };
 
-    console.log(chatInfo);
+    // console.log(chatInfo);
 
-    chatInfo.key = 'google:112573893399449675024_13190ef8-cf39-46e9-8c34-df7488399762';
+    // chatInfo.key = 'google:112573893399449675024_13190ef8-cf39-46e9-8c34-df7488399762';
 
     $scope.chatList = {};
 
@@ -45,30 +44,31 @@ angular.module('Divvy')
     };
 
     chatList.$watch(function(event) {
-
       $ionicScrollDelegate.scrollBottom();
-      console.log(event);
+      // console.log(event);
     });
 
     $scope.imageUrl = function (user) {
-      if(user == $localStorage.authData.uid)
+      if(user === $localStorage.authData.uid){
         return chatInfo.senderImg;
-      else
+      }
+      else{
         return chatInfo.recipientImg;
+      }
     };
 
     $scope.name = function (user) {
-      if(user == $localStorage.authData.uid)
+      if(user === $localStorage.authData.uid){
         return chatInfo.senderName;
-      else
-        return chatInfo.recipientName;
+      }
+      return chatInfo.recipientName;
     };
 
     $scope.avatarSide = function (user) {
-      if(user == $localStorage.authData.uid)
+      if(user === $localStorage.authData.uid){
         return 'item-avatar-right item-stable text-rtl';
-      else
-        return 'item-avatar-left';
+      }
+      return 'item-avatar-left';
     };
 
     $scope.$on('$ionicView.beforeEnter', function (event, viewData) {

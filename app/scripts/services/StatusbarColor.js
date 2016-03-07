@@ -25,7 +25,6 @@ angular.module('Divvy')
 
     return {
       set: set
-    }
+    };
 
   });
-

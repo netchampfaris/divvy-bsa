@@ -12,17 +12,18 @@
 
 angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'firebase', 'ion-place-tools'])
 
-  .run(function($ionicPlatform, $ionicLoading, $rootScope, Auth, $localStorage, $state, $ionicPopup, FirebaseRef, appModalService, $q) {
+  .run(function($ionicPlatform, $ionicLoading, $rootScope, Auth, $localStorage, $state, $ionicPopup, FirebaseRef, appModalService, $q, StatusbarColor) {
 
     $ionicPlatform.ready(function() {
       // save to use plugins here
-      if (window.StatusBar) {
-        if (ionic.Platform.isAndroid()) {
-          StatusBar.backgroundColorByHexString("#303F9F");
-        } else {
-          StatusBar.styleLightContent();
-        }
-      }
+      // if (window.StatusBar) {
+      //   if (ionic.Platform.isAndroid()) {
+      //     StatusBar.backgroundColorByHexString('#303F9F');
+      //   } else {
+      //     StatusBar.styleLightContent();
+      //   }
+      // }
+      StatusbarColor.set('energized');
 
       //Fires when user logs in or logs out
       Auth.$onAuth(function(authData) {
@@ -33,12 +34,12 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
           delete $localStorage.userInfo;
           $state.go('login');
         } else {
-          console.log(authData);
+          // console.log(authData);
           console.log('Logged in as', authData.uid);
           $localStorage.authData = authData;
           FirebaseRef.child('users/'+authData.uid+'/name').once('value')
             .then(function (data) {
-              if(data.val() == null){
+              if(data.val() === null){
                 var params = {
                   name: authData[authData.provider].displayName,
                   img: authData[authData.provider].profileImageURL,
@@ -74,10 +75,11 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
 
       $rootScope.logout = function () {
         $rootScope.confirmPopup('Logout ?','','Logout', 'assertive').then(function (res) {
-          if(res)
+          if(res){
             Auth.$unauth();
-        })
-      }
+          }
+        });
+      };
     });
 
 
@@ -100,7 +102,7 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
     $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
       // We can catch the error thrown when the $requireAuth promise is rejected
       // and redirect the user back to the home page
-      if (error === "AUTH_REQUIRED") {
+      if (error === 'AUTH_REQUIRED') {
         $state.go('login');
       }
     });
@@ -136,7 +138,7 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
         templateUrl: 'templates/login/login.html',
         controller: 'LoginCtrl',
         resolve: {
-          "currentAuth": function (Auth) {
+          'currentAuth': function (Auth) {
             return Auth.$waitForAuth();
           }
         }
@@ -148,7 +150,7 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
         abstract: true,
         templateUrl: 'templates/tabs.html',
         resolve: {
-          "currentAuth": function (Auth) {
+          'currentAuth': function (Auth) {
             return Auth.$requireAuth();
           }
         }
@@ -164,7 +166,7 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
             templateUrl: 'templates/library/tab-library.html',
             controller: 'LibraryCtrl',
             resolve: {
-              "books" : function(UserBooksLocal) {
+              'books' : function(UserBooksLocal) {
                 return UserBooksLocal.get();
               }
             }
@@ -216,7 +218,7 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
           isbn: null
         },
         resolve: {
-          "bookinfo" : function($stateParams, BookInfo) {
+          'bookinfo' : function($stateParams, BookInfo) {
             console.log($stateParams);
             return BookInfo.get($stateParams.isbn);
           }
@@ -225,14 +227,18 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
 
       .state('userChat', {
         url: '/userChat',
+        cache: false,
         templateUrl: 'templates/user/user-chat.html',
         controller: 'UserChatCtrl',
         params: {
           chatFrom: null,
-          chatTo: null
+          chatTo: null,
+          key: null,
+          recipientName: null,
+          recipientImg: null
         },
         resolve: {
-          "chatInfo" : function($stateParams, ChatInfo) {
+          'chatInfo' : function($stateParams, ChatInfo) {
             return ChatInfo.get($stateParams);
           }
         }
@@ -263,5 +269,3 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
       }
     });*/
   });
-
-

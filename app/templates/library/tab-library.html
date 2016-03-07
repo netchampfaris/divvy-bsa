@@ -1,6 +1,6 @@
 <ion-view view-title="Library">
   <ion-content>
-    <ion-list>
+    <div class="list">
       <div class="item item-button-right edit-profile">
         Welcome, {{$storage.userInfo.name}}
         <button class="button button-small button-outline button-positive"
@@ -9,13 +9,13 @@
           Edit Profile
         </button>
       </div>
-      <div class="item item-divider-android item-borderless positive">
+      <div class="item item-divider-android item-borderless positive divider-underline">
         {{atLeastOneBook()?'Your books':'Start by adding a few books in your library'}}
       </div>
       <div class="item item-borderless" ng-repeat="(isbn, book) in $storage.userBooks track by isbn" ng-click="editBook(book)">
         {{ book.info.title  }}
       </div>
-    </ion-list>
+    </div>
   </ion-content>
   <div class="float-button" ui-sref="tab.addbook">
     <span class="height-fix">

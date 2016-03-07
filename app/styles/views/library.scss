@@ -9,7 +9,7 @@
   font-size: 20px;
   background: $assertive;
   position: fixed;
-  box-shadow: 0 3px 15px rgba(black,.5);
+  box-shadow: 0 1px 5px rgba(black,.5);
   bottom: 20px; /* Adjust to where you want it */
   right: 20px; /* Adjust to where you want it */
   z-index: 9999;
@@ -31,7 +31,8 @@
   }
 
   &:active {
-    background: $balanced;
+    background: lighten($assertive, 5%);
+    box-shadow: 0 3px 15px rgba(black,.5);
   }
 }
 
@@ -72,4 +73,13 @@
 }
 .center {
   margin: 0 auto;
+}
+
+/*divider*/
+.divider-underline {
+  border-bottom: 2px solid lighten($positive, 30%);
+  margin-left: 15px;
+  margin-right: 15px;
+  padding-left: 0;
+  padding-bottom: 5px;
 }

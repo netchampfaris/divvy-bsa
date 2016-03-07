@@ -13,15 +13,22 @@ angular.module('Divvy')
     $scope.goBack = function () {
       $ionicHistory.goBack();
     };
-    $scope.chats = $localStorage.userChats;
+    $scope.chats = {};
+    // $scope.chats = $localStorage.userChats;
+    FirebaseRef.child('users/'+$localStorage.authData.uid+'/chats').once('value')
+      .then(function(snap){
+        $scope.chats = snap.val();
+        $scope.$apply('chats');
+      });
 
-    $scope.startChat = function (user) {
+    $scope.startChat = function (key, chat) {
+      // console.log(key, chat);
       $state.go('userChat', {
-        chatFrom: $localStorage.authData.uid,
-        chatTo: user
+        key: key,
+        recipientName: chat.recipientName,
+        recipientImg: chat.recipientImg
       });
     };
-
 
     $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
       viewData.enableBack = true;

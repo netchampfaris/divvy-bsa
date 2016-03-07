@@ -1,0 +1,9 @@
+{
+  "name": "divvy-bsa",
+  "app_id": "9a942736",
+  "documentRoot": ".tmp",
+  "watchPatterns": [
+    ".tmp/*",
+    ".tmp/*/**"
+  ]
+}

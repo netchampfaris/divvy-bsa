@@ -2,8 +2,8 @@
   <ion-content has-bouncing="true">
     <div class="list">
       <div class="item item-avatar-left"
-           ng-repeat="(uid,chat) in chats"
-           ng-click="startChat(uid)">
+           ng-repeat="(key, chat) in chats"
+           ng-click="startChat(key, chat)">
         <img ng-src="{{chat.recipientImg}}" alt="">
         {{chat.recipientName}}
       </div>
