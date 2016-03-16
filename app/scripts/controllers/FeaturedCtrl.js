@@ -7,28 +7,21 @@
  * # FeaturedCtrl
  */
 angular.module('Divvy')
-  .controller('FeaturedCtrl', function($scope) {
+  .controller('FeaturedCtrl', function($scope, $state, GetBooks) {
 
     console.log('in featured');
+    $scope.items = {};
+    $scope.loading = true;
 
-    $scope.items = [
-      {
-        title: "Mobile Communications",
-        author: "Jochen Schiller",
-        owner: "Akshay Dalvi",
-        location: "Andheri"
-      },
-      {
-        title: "Digital Logic",
-        author: "James Mathew",
-        owner: "Yash Mhatre",
-        location: "Dombivali"
-      },
-      {
-        title: "Mathematics IV",
-        author: "Kumbhojkar",
-        owner: "Faris Ansari",
-        location: "Kurla"
-      }
-    ];
+    GetBooks.all()
+      .then(function(items){
+        $scope.items = items;
+        $scope.loading = false;
+        console.log($scope.items);
+      });
+
+    $scope.bookview = function (id) {
+      $state.go('tab.bookview', { isbn: id });
+    };
+
   });

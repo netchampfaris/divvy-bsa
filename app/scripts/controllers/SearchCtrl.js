@@ -16,8 +16,9 @@ angular.module('Divvy')
     $scope.search = function (terms) {
       console.log(terms.keywords);
       $scope.data = {};
-      if(terms.keywords)
+      if(terms.keywords){
         doSearch('firebase', 'book', buildQuery(terms.keywords, terms.words));
+      }
     };
     $scope.bookview = function (id) {
       $state.go('tab.bookview', { isbn: id });

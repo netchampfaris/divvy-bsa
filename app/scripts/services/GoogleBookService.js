@@ -31,6 +31,7 @@ angular.module('Divvy')
         }, function errorCallback(response) {
           // called asynchronously if an error occurs
           // or server returns response with an error status.
+          console.log(response);
           defer.reject();
         });
           return defer.promise;
@@ -38,4 +39,3 @@ angular.module('Divvy')
     };
 
   });
-

@@ -1,15 +1,20 @@
 <ion-view view-title="Featured">
   <ion-content>
-    <ion-list>
-        <div class="list card" ng-repeat="item in items">
-          <div class="item item-text-wrap">
-            <h2><strong>{{ item.title }}</strong></h2>
-            <p>{{item.author}}</p>
-          </div>
-          <div class="item item-divider">
-            <p>{{ item.owner }}, {{ item.location }}</p>
-          </div>
+    <div class="item item-divider-android item-borderless positive divider-underline">
+      Popular books
+    </div>
+    <ion-scroll zooming="true" direction="x" class="wide-as-needed">
+      <div class="row">
+        <ion-spinner class="spinner-positive center" ng-if="loading"></ion-spinner>
+      </div>
+      <div class="list card featured-book" ng-repeat="(id, item) in items" ng-click="bookview(id)">
+        <div class="item item-image">
+          <img src="{{item.imageLinks.smallThumbnail}}" alt="{{item.title}}" />
         </div>
-    </ion-list>
+        <div class="item item-divider">
+          {{item.title}}
+        </div>
+      </div>
+    </ion-scroll>
   </ion-content>
 </ion-view>

@@ -1,0 +1,27 @@
+.wide-as-needed {
+  overflow: scroll;
+  white-space: nowrap;
+}
+.scroll {
+  min-width: 100%;
+}
+.featured-book {
+  width: 30vw;
+  display: inline-block;
+  .item.item-image{
+    min-height: 170px;
+  }
+  .item.item-divider {
+    font-weight: 200;
+    font-size: 14px;
+  }
+  &:last-child.card {
+    margin-bottom: 20px;
+  }
+  &:active,&:hover {
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.5)
+  }
+}
+.center {
+  margin: 0 auto;
+}

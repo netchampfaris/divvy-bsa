@@ -13,14 +13,16 @@ angular.module('Divvy')
     $scope.owners = bookinfo.bookowners;
 
     $scope.toggleDesc = function (desc) {
-      $scope.book.descLimit = (desc == 98) ? null : 98;
+      $scope.book.descLimit = (desc === 98) ? null : 98;
     };
 
     $scope.pricingInfo = function(userPref) {
-      if(userPref.shareType == 'sell')
+      if(userPref.shareType === 'sell'){
         return 'Buy for '+userPref.sellPrice+'/-';
-      else if(userPref.shareType == 'rent')
+      }
+      else if(userPref.shareType === 'rent'){
         return 'Rent on '+userPref.rentPrice+'/day with '+userPref.rentDeposit+' deposit';
+      }
     };
 
     $scope.startChat = function (user) {
@@ -29,6 +31,6 @@ angular.module('Divvy')
         chatFrom: $localStorage.authData.uid,
         chatTo: user.uid
       });
-    }
+    };
 
   });

@@ -24,13 +24,13 @@ angular.module('Divvy')
             $localStorage.userBooks = userBooks;
             defer.resolve();
           }, function (err) {
+            console.log(err);
             defer.reject();
-          })
+          });
         }
 
         return defer.promise;
       }
-    }
+    };
 
   });
-
