@@ -10,19 +10,30 @@
  */
 
 
-angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'firebase', 'ion-place-tools'])
+angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'firebase', 'ion-place-tools', 'ionic.rating'])
 
   .run(function($ionicPlatform, $ionicLoading, $rootScope, Auth, $localStorage, $state, $ionicPopup, FirebaseRef, appModalService, $q, StatusbarColor) {
 
     $ionicPlatform.ready(function() {
-      // save to use plugins here
-      // if (window.StatusBar) {
-      //   if (ionic.Platform.isAndroid()) {
-      //     StatusBar.backgroundColorByHexString('#303F9F');
-      //   } else {
-      //     StatusBar.styleLightContent();
-      //   }
-      // }
+
+      //onesignal
+      // Enable to debug issues.
+      // window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
+
+      var notificationOpenedCallback = function(jsonData) {
+        console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+      };
+
+      if(window.Statusbar){
+        window.plugins.OneSignal.init('54b3e879-1540-4ceb-b1e8-d3968dcc188b',
+        {googleProjectNumber: '1008005019764'},
+        notificationOpenedCallback);
+
+        // Show an alert box if a notification comes in when the user is in your app.
+        window.plugins.OneSignal.enableInAppAlertNotification(true);
+      }
+
+      //color
       StatusbarColor.set('energized');
 
       //Fires when user logs in or logs out
@@ -164,12 +175,7 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
         views: {
           'tab-library': {
             templateUrl: 'templates/library/tab-library.html',
-            controller: 'LibraryCtrl',
-            resolve: {
-              'books' : function(UserBooksLocal) {
-                return UserBooksLocal.get();
-              }
-            }
+            controller: 'LibraryCtrl'
           }
         }
       })
@@ -216,12 +222,6 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
         },
         params: {
           isbn: null
-        },
-        resolve: {
-          'bookinfo' : function($stateParams, BookInfo) {
-            console.log($stateParams);
-            return BookInfo.get($stateParams.isbn);
-          }
         }
       })
 

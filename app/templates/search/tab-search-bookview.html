@@ -3,17 +3,21 @@
     <div class="list">
       <li class="item item-thumbnail-left">
         <img class="book-avatar" src="{{book.imageLinks.smallThumbnail}}" alt="">
+        <ion-spinner ng-if="isEmpty(book)"></ion-spinner>
         <h2>{{book.title}}</h2>
         <h2><span ng-repeat="author in book.authors">{{author}}{{(vm.book.authors.length>1)?',':''}} </span></h2>
         <p>ISBN: {{book.ISBN_13 || book.ISBN_10 || book.OTHER}}</p>
       </li>
       <li class="item item-body" ng-click="toggleDesc(book.descLimit)" ng-init="book.descLimit = 98">
-        Description: <p>{{book.description | limitTo:book.descLimit}}</p>
+        Description:
+        <ion-spinner ng-if="isEmpty(book)"></ion-spinner>
+        <p>{{book.description | limitTo:book.descLimit}}</p>
       </li>
       <div class="item item-divider">
-        Available with:
+        {{(owners.length !== 0) ? 'Available with:' : 'Not available currently'}}
       </div>
       <div class="list">
+        <ion-spinner ng-if="isEmpty(owners)"></ion-spinner>
         <div class="item item-avatar-left" ng-repeat="user in owners" ng-click="startChat(user)">
           <img ng-src="{{user.img}}" alt="{{user.name}}">
           <h2>
@@ -21,6 +25,22 @@
           </h2>
           <p>{{pricingInfo(user.pref)}}</p>
         </div>
+      </div>
+      <div class="list">
+        <div class="item item-divider">
+          Reviews
+        </div>
+        <div class="item item-avatar-left" ng-repeat="review in reviews">
+          <img src="{{review.img}}" alt="avatar" />
+          <h2>
+            {{review.title}}
+            <span class="item-note">{{review.date | date:'dd-MM-yyyy'}}</span>
+          </h2>
+          <p>
+            <rating ng-model="review.rating" max="5"></rating>
+          </p>
+        </div>
+        <button class="button button-clear button-full" ng-click="addReview()">+ Add a review</button>
       </div>
     </div>
   </ion-content>

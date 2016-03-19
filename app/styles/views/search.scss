@@ -8,3 +8,28 @@
   max-width:60px !important;
   left: 20px !important;
 }
+.review-popup {
+  .popup {
+    .popup-body {
+      ul.rating {
+        margin: 0 auto;
+        li {
+          display: inline-block;
+          font-size: 30px;
+          color: $assertive;
+        }
+      }
+      input {
+        padding: 5px;
+        margin: 5px 0;
+      }
+      textarea {
+        padding: 5px;
+        margin: 5px 0;
+      }
+    }
+  }
+}
+ul.rating li {
+  display: inline-block;
+}

@@ -13,20 +13,29 @@ angular.module('Divvy')
 
 
     return {
-      get: function (isbn) {
-        var book = {};
+      
+      getBookDetails: function(isbn) {
+        var defer = $q.defer();
+        FirebaseRef.child('books/'+isbn).once('value', function (booksnap) {
+          defer.resolve(booksnap.val());
+        }, function(err){
+          defer.reject(err);
+        });
+        return defer.promise;
+      },
+
+      getBookOwners: function(isbn) {
+
         var bookowners = [];
         var promises = [];
 
         var defer = $q.defer();
-        FirebaseRef.child('books/'+isbn).once('value', function (booksnap) {
-          book = booksnap.val();
-
-          FirebaseRef.child('bookowners/'+isbn).once('value', function (snap) {
+        FirebaseRef.child('bookowners/'+isbn).once('value')
+          .then(function (snap) {
             snap.forEach(function (child) {
               var user = child.key();
               var pref = child.val(); //true for shared, false for not shared
-              if(pref && user != $localStorage.authData.uid){
+              if(pref && user !== $localStorage.authData.uid){
 
                 var dfd = $q.defer();
 
@@ -51,17 +60,26 @@ angular.module('Divvy')
             });
 
             $q.all(promises).then(function (data) {
-              defer.resolve({
-                book: book,
-                bookowners: bookowners
-              });
+              console.log(data);
+              defer.resolve(bookowners);
             });
           });
-        });
 
         return defer.promise;
+      },
+
+      getBookReviews: function(isbn) {
+
+        var defer = $q.defer();
+        FirebaseRef.child('reviews/'+isbn).once('value')
+          .then(function(snap) {
+            defer.resolve(snap.val());
+          }, function(err) {
+            defer.reject(err);
+          });
+        return defer.promise;
+
       }
-    }
+    };
 
   });
-

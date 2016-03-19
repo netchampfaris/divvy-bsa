@@ -7,7 +7,11 @@
  * # LoginCtrl
  */
 angular.module('Divvy')
-  .controller('LoginCtrl', function($scope, FirebaseRef, Auth, $localStorage, $state, $ionicLoading, $rootScope) {
+  .controller('LoginCtrl', function($scope, FirebaseRef, Auth, $localStorage, $state, $ionicLoading, $rootScope, $cordovaStatusbar) {
+
+    if(window.StatusBar){
+      $cordovaStatusbar.hide();
+    }
 
     if($localStorage.authData)
     {
@@ -61,6 +65,11 @@ angular.module('Divvy')
         $rootScope.alertPopup('Error', err);
         $ionicLoading.hide();
       });
-    }
+    };
+
+    $scope.$on('$ionicView.beforeLeave', function() {
+      $cordovaStatusbar.show();
+      console.log('hide statusbar');
+    });
 
   });
