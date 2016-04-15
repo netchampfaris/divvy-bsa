@@ -4,8 +4,8 @@
     <button class="button" ng-click="close()">Cancel</button>
   </ion-header-bar>
   <ion-content>
-    <div class="item item-body row user-profile-top">
-      <img ng-src="{{userInfo.img}}" alt="" class="full-image user-profile-image col col-40">
+    <div class="item item-body row user-info-top">
+      <img ng-src="{{userInfo.img}}" alt="" class="full-image user-info-image col col-40">
       <div class="col" ng-init="input.show = false">
         <div class="item item-borderless row padding-vertical" ng-show="!input.show">{{userInfo.name}}</div>
         <p class="row"><i class="icon ion-ios-location"></i>&nbsp;{{userInfo.location.name}}</p>
@@ -17,7 +17,7 @@
                 ng-show="profile.edit">{{'Save' | uppercase}}</button>
       </div>
     </div>
-    <div class="list user-profile-bottom" ng-if="profile.edit">
+    <div class="list user-info-bottom" ng-if="profile.edit">
       <label class="item item-input item-stacked-label">
         <span class="input-label">Name:</span>
         <input type="text" ng-model="userInfo.name" autofocus>

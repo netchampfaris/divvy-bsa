@@ -7,7 +7,7 @@
  * # LibraryCtrl
  */
 angular.module('Divvy')
-  .controller('LibraryCtrl', function($scope, UserBooksLocal, appModalService, $localStorage, _) {
+  .controller('LibraryCtrl', ['$scope', 'UserBooksLocal', 'appModalService', '$localStorage', '_', function($scope, UserBooksLocal, appModalService, $localStorage, _) {
 
     console.log('in library');
 
@@ -52,4 +52,4 @@ angular.module('Divvy')
       return !(_.isEmpty($localStorage.userBooks));
     };
 
-  });
+  }]);

@@ -9,7 +9,7 @@
  *
  */
 angular.module('Divvy')
-  .factory('StatusbarColor', function(Colors, $ionicPlatform) {
+  .factory('StatusbarColor', ['Colors', '$ionicPlatform', function(Colors, $ionicPlatform) {
 
     var set = function (color) {
       $ionicPlatform.ready(function() {
@@ -27,4 +27,4 @@ angular.module('Divvy')
       set: set
     };
 
-  });
+  }]);

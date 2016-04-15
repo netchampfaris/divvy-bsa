@@ -9,10 +9,8 @@
  *
  */
 angular.module('Divvy')
-  .factory('FirebaseRef', function(FirebaseUrl) {
+  .factory('FirebaseRef', ['FirebaseUrl', function(FirebaseUrl) {
 
-    var ref = new Firebase(FirebaseUrl);
-    return ref;
+    return new Firebase(FirebaseUrl);
 
-  });
-
+  }]);

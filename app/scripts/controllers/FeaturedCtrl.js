@@ -7,7 +7,7 @@
  * # FeaturedCtrl
  */
 angular.module('Divvy')
-  .controller('FeaturedCtrl', function($scope, $state, GetBooks) {
+  .controller('FeaturedCtrl', ['$scope', '$state', 'GetBooks',function($scope, $state, GetBooks) {
 
     console.log('in featured');
     $scope.items = {};
@@ -17,11 +17,11 @@ angular.module('Divvy')
       .then(function(items){
         $scope.items = items;
         $scope.loading = false;
-        console.log($scope.items);
+        // console.log($scope.items);
       });
 
     $scope.bookview = function (id) {
       $state.go('tab.bookview', { isbn: id });
     };
 
-  });
+  }]);

@@ -7,7 +7,7 @@
  * # AddBookCtrl
  */
 angular.module('Divvy')
-  .controller('AddBookCtrl', function($scope, $rootScope, GoogleBookService, $cordovaBarcodeScanner, $ionicPopup, $ionicModal, appModalService) {
+  .controller('AddBookCtrl', ['$scope', '$rootScope', 'GoogleBookService', '$cordovaBarcodeScanner', '$ionicPopup', '$ionicModal', 'appModalService', function($scope, $rootScope, GoogleBookService, $cordovaBarcodeScanner, $ionicPopup, $ionicModal, appModalService) {
 
     $scope.searchResults = [];
 
@@ -97,6 +97,6 @@ angular.module('Divvy')
         }, function (error) {
           console.log(error);
         });
-    }
+    };
 
-  });
+  }]);

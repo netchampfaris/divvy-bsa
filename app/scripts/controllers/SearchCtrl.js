@@ -7,7 +7,7 @@
  * # SearchCtrl
  */
 angular.module('Divvy')
-  .controller('SearchCtrl', function($scope, FirebaseUrl, $ionicLoading, $state, $rootScope) {
+  .controller('SearchCtrl', ['$scope', 'FirebaseUrl', '$ionicLoading', '$state', '$rootScope', function($scope, FirebaseUrl, $ionicLoading, $state, $rootScope) {
 
     console.log('in search');
     $scope.terms = {};
@@ -59,4 +59,4 @@ angular.module('Divvy')
       return term;
     }
 
-  });
+  }]);

@@ -7,7 +7,7 @@
  * # ModalCtrl
  */
 angular.module('Divvy')
-  .controller('ModalCtrl', function($scope, parameters, $rootScope, FirebaseRef, $ionicLoading, $q, $localStorage) {
+  .controller('ModalCtrl', ['$scope', 'parameters', '$rootScope', 'FirebaseRef', '$ionicLoading', '$q', '$localStorage', function($scope, parameters, $rootScope, FirebaseRef, $ionicLoading, $q, $localStorage) {
     var vm = this;
     vm.book = parameters.book;
     vm.book.descLimit = 98;
@@ -120,4 +120,4 @@ angular.module('Divvy')
       $scope.closeModal('modal cancelled');
     };
 
-  });
+  }]);

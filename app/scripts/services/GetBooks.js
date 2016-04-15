@@ -9,7 +9,7 @@
  *
  */
 angular.module('Divvy')
-  .factory('GetBooks', function($q, FirebaseRef) {
+  .factory('GetBooks', ['$q', 'FirebaseRef', function($q, FirebaseRef) {
 
     return {
       all: function () {
@@ -25,4 +25,4 @@ angular.module('Divvy')
       }
     };
 
-  });
+  }]);

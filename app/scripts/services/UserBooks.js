@@ -9,7 +9,7 @@
  *
  */
 angular.module('Divvy')
-  .factory('UserBooks', function(FirebaseRef, $q,_) {
+  .factory('UserBooks', ['FirebaseRef', '$q', '_', function(FirebaseRef, $q, _) {
 
     var getUserBooks = function (id) {
       var defer = $q.defer();
@@ -21,7 +21,7 @@ angular.module('Divvy')
         });
         defer.resolve(userbooks);
       }, function (err) {
-        defer.reject();
+        defer.reject(err);
       });
       return defer.promise;
     };
@@ -45,22 +45,22 @@ angular.module('Divvy')
             userbooksinfo = _.flatMap(userbooksinfo, function (b) {
               for(var key in b)
               {
-                if(b.hasOwnProperty(key))
+                if(b.hasOwnProperty(key)){
                   b[key].key = key;
+                }
               }
               return b[key];
             });
             for(var i = 0; i<userbooksinfo.length; i++){
               var isbn = userbooksinfo[i].key;
-              userbooks[isbn]['info'] = userbooksinfo[i];
+              userbooks[isbn].info = userbooksinfo[i];
             }
             console.log('fetched userbooks from db');
             defer.resolve(userbooks);
-          })
+          });
         });
         return defer.promise;
       }
-    }
+    };
 
-  });
-
+  }]);

@@ -9,7 +9,7 @@
  *
  */
 angular.module('Divvy')
-  .factory('GoogleBookService', function($http, $q) {
+  .factory('GoogleBookService', ['$http', '$q', function($http, $q) {
 
     var endpoint = 'https://www.googleapis.com/books/v1/volumes?q=';
     var startIndex = '&startIndex=';
@@ -38,4 +38,4 @@ angular.module('Divvy')
       }
     };
 
-  });
+  }]);

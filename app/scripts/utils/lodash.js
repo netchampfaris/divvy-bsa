@@ -10,6 +10,6 @@
  */
 
 angular.module('Divvy')
-  .factory('_', function($window) {
+  .factory('_', ['$window', function($window) {
     return $window._;
-  });
+  }]);

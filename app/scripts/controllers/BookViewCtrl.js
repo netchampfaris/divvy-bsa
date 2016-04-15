@@ -7,37 +7,47 @@
  * # BookViewCtrl
  */
 angular.module('Divvy')
-  .controller('BookViewCtrl', function($scope, FirebaseRef, $ionicLoading, $state, $localStorage, BookInfo, $stateParams, _, $ionicPopup) {
+  .controller('BookViewCtrl', ['$scope', 'FirebaseRef', '$ionicLoading', '$state', '$localStorage', 'BookInfo', '$stateParams', '_', '$ionicPopup',function($scope, FirebaseRef, $ionicLoading, $state, $localStorage, BookInfo, $stateParams, _, $ionicPopup) {
 
     $scope.book = {};
     $scope.owners = {};
     $scope.reviews = {};
-    var isbn = $stateParams.isbn;
 
-    $scope.isEmpty = function(item) {
-      if (item.length === 0) {
-        return false;
-      }
-      return _.isEmpty(item);
+    $scope.loading = {
+      book: true,
+      owners: true,
+      reviews: true
     };
+    var isbn = $stateParams.isbn;
 
     BookInfo.getBookDetails(isbn)
       .then(function(data) {
         $scope.book = data;
+        $scope.loading.book = false;
       });
 
     BookInfo.getBookOwners(isbn)
       .then(function(data) {
         $scope.owners = data;
+        $scope.loading.owners = false;
+        console.log(data);
       });
 
     BookInfo.getBookReviews(isbn)
       .then(function(data) {
         $scope.reviews = data;
+        $scope.loading.reviews = false;
       });
 
     $scope.toggleDesc = function(desc) {
       $scope.book.descLimit = (desc === 98) ? null : 98;
+    };
+
+    $scope.calcRating = function(rating) {
+      if(rating){
+        return rating.cumulativeRatings/rating.numRatings;
+      }
+      return 0;
     };
 
     $scope.pricingInfo = function(userPref) {
@@ -56,9 +66,15 @@ angular.module('Divvy')
       });
     };
 
+    $scope.openProfile = function(id) {
+      console.log('openProfile');
+      $state.go('userProfile', {uid: id});
+    };
+
     $scope.addReview = function() {
 
       $scope.data = {
+        isbn: isbn,
         user: $localStorage.authData.uid,
         img: $localStorage.userInfo.img,
         date: Firebase.ServerValue.TIMESTAMP,
@@ -91,18 +107,43 @@ angular.module('Divvy')
         }]
       });
 
+      function pushReview(review) {
+        return FirebaseRef.child('reviews').push(review);
+      }
+      function updateRating(rating) {
+        return FirebaseRef.child('books/'+isbn+'/rating').transaction(function(snap){
+          if(snap === null){
+            return {
+              numRatings: 1,
+              cumulativeRatings: rating
+            };
+          }
+          else {
+            return {
+              numRatings: parseInt(snap.numRatings) + 1,
+              cumulativeRatings: parseInt(snap.cumulativeRatings) + rating
+            };
+          }
+        });
+      }
+
       myPopup.then(function(review) {
         console.log('Tapped!', review);
-
-        FirebaseRef.child('reviews/'+isbn).push(review, function(err) {
-          if(!err) {
-            BookInfo.getBookReviews(isbn)
-              .then(function(data) {
-                $scope.reviews = data;
-              });
-          }
+        $scope.loading.reviews = true;
+        pushReview(review)
+        .then(updateRating(review.rating))
+        .then(function() {
+          BookInfo.getBookReviews(isbn)
+            .then(function(data) {
+              $scope.reviews = data;
+              $scope.loading.reviews = false;
+            });
         });
       });
     };
 
-  });
+    $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+      viewData.enableBack = true;
+    });
+
+  }]);

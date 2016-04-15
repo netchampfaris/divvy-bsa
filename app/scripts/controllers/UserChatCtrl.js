@@ -7,7 +7,7 @@
  * # UserChatCtrl
  */
 angular.module('Divvy')
-  .controller('UserChatCtrl', function($scope, $ionicHistory, chatInfo, FirebaseRef, $firebaseArray, $localStorage, $ionicScrollDelegate) {
+  .controller('UserChatCtrl', ['$scope', '$ionicHistory', 'chatInfo', 'FirebaseRef', '$firebaseArray', '$localStorage', '$ionicScrollDelegate', function($scope, $ionicHistory, chatInfo, FirebaseRef, $firebaseArray, $localStorage, $ionicScrollDelegate) {
 
     console.log('in user-chat');
     $scope.goBack = function () {
@@ -75,4 +75,4 @@ angular.module('Divvy')
       viewData.enableBack = true;
     });
 
-  });
+  }]);

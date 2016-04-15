@@ -1,7 +1,7 @@
 <ion-view view-title="Chat">
   <ion-content delegate-handle="chatListView" has-bouncing="true">
     <div class="list">
-      <div class="item item-borderless" ng-class="avatarSide(chat.sender)" ng-repeat="chat in chatList">
+      <div class="item item-borderless chat" ng-class="avatarSide(chat.sender)" ng-repeat="chat in chatList">
         <img ng-src="{{imageUrl(chat.sender)}}">
         <!--<h2>{{name(chat.sender)}}</h2>-->
         <h2 class="right">{{chat.message}}</h2>

@@ -1,21 +1,37 @@
 .text-rtl {
   direction: rtl;
 }
-/*user-profile*/
-.user-profile-top {
+/*user-info*/
+.user-info-top {
   p {
     margin-top: 0 !important;
   }
 }
 
-.user-profile-bottom {
+.user-info-bottom {
   border-top: 0;
   input[type="text"] {
     width: 100%;
   }
 }
 
-.user-profile-image {
+.user-info-image {
   max-height: 40vw;
   width: auto;
+}
+
+.chat h2 {
+  white-space: normal;
+}
+
+//user-profile
+.user-profile {
+  .row {
+    text-align: center;
+  }
+}
+
+.user-profile-img {
+  width: 100%;
+  border-radius: 50%;
 }

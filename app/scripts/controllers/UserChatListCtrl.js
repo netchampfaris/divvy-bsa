@@ -7,7 +7,7 @@
  * # UserChatListCtrl
  */
 angular.module('Divvy')
-  .controller('UserChatListCtrl', function($scope, $ionicHistory, FirebaseRef, $state, $localStorage) {
+  .controller('UserChatListCtrl', ['$scope', '$ionicHistory', 'FirebaseRef', '$state', '$localStorage', function($scope, $ionicHistory, FirebaseRef, $state, $localStorage) {
 
     console.log('in user-chat-list');
     $scope.goBack = function () {
@@ -34,4 +34,4 @@ angular.module('Divvy')
       viewData.enableBack = true;
     });
 
-  });
+  }]);

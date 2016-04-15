@@ -6,7 +6,9 @@
   min-width: 100%;
 }
 .featured-book {
-  width: 30vw;
+  //width: 30vw;
+  //max-width: 200px;
+  width: 9em;
   display: inline-block;
   .item.item-image{
     min-height: 170px;

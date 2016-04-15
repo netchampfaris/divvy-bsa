@@ -9,11 +9,11 @@
  *
  */
 angular.module('Divvy')
-  .factory('BookInfo', function($q, FirebaseRef, $localStorage) {
+  .factory('BookInfo', ['$q', 'FirebaseRef', '$localStorage', function($q, FirebaseRef, $localStorage) {
 
 
     return {
-      
+
       getBookDetails: function(isbn) {
         var defer = $q.defer();
         FirebaseRef.child('books/'+isbn).once('value', function (booksnap) {
@@ -71,7 +71,7 @@ angular.module('Divvy')
       getBookReviews: function(isbn) {
 
         var defer = $q.defer();
-        FirebaseRef.child('reviews/'+isbn).once('value')
+        FirebaseRef.child('reviews').orderByChild('isbn').equalTo(isbn).once('value')
           .then(function(snap) {
             defer.resolve(snap.val());
           }, function(err) {
@@ -82,4 +82,4 @@ angular.module('Divvy')
       }
     };
 
-  });
+  }]);

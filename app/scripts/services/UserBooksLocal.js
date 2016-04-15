@@ -9,7 +9,7 @@
  *
  */
 angular.module('Divvy')
-  .factory('UserBooksLocal', function(UserBooks, $localStorage, $q) {
+  .factory('UserBooksLocal', ['UserBooks', '$localStorage', '$q', function(UserBooks, $localStorage, $q) {
 
     return {
       get : function () {
@@ -33,4 +33,4 @@ angular.module('Divvy')
       }
     };
 
-  });
+  }]);

@@ -12,19 +12,20 @@
 
 angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'firebase', 'ion-place-tools', 'ionic.rating'])
 
-  .run(function($ionicPlatform, $ionicLoading, $rootScope, Auth, $localStorage, $state, $ionicPopup, FirebaseRef, appModalService, $q, StatusbarColor) {
+  .run(['$ionicPlatform', '$ionicLoading', '$rootScope', 'Auth', '$localStorage', '$state', '$ionicPopup', 'FirebaseRef', 'appModalService', '$q', 'StatusbarColor', function($ionicPlatform, $ionicLoading, $rootScope, Auth, $localStorage, $state, $ionicPopup, FirebaseRef, appModalService, $q, StatusbarColor) {
 
     $ionicPlatform.ready(function() {
 
-      //onesignal
+      //Setting up OneSignal
       // Enable to debug issues.
       // window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
 
-      var notificationOpenedCallback = function(jsonData) {
-        console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
-      };
+      if(window.cordova){
 
-      if(window.Statusbar){
+        var notificationOpenedCallback = function(jsonData) {
+          console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+        };
+
         window.plugins.OneSignal.init('54b3e879-1540-4ceb-b1e8-d3968dcc188b',
         {googleProjectNumber: '1008005019764'},
         notificationOpenedCallback);
@@ -51,18 +52,20 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
           FirebaseRef.child('users/'+authData.uid+'/name').once('value')
             .then(function (data) {
               if(data.val() === null){
-                var params = {
-                  name: authData[authData.provider].displayName,
-                  img: authData[authData.provider].profileImageURL,
-                  location: null
-                };
-                appModalService
+
+                  var params = {
+                    name: authData[authData.provider].displayName,
+                    img: authData[authData.provider].profileImageURL,
+                    location: null
+                  };
+                  appModalService
                   .show('templates/user/user-info.html', 'UserInfoCtrl', params)
                   .then(function(result){
                     console.log(result);
                   }, function (error) {
                     console.log(error);
                   });
+
               }
               else{
                 $q.all([
@@ -78,6 +81,14 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
                     };
                     console.log('fetched userInfo');
                   });
+              }
+              if(window.cordova){
+                window.plugins.OneSignal.getIds(function(ids) {
+                  console.log('getIds: ' + JSON.stringify(ids));
+                  FirebaseRef.child('users/'+authData.uid).update({
+                    appId: ids.userId
+                  });
+                });
               }
           });
           $state.go('tab.featured');
@@ -135,9 +146,9 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
       $ionicLoading.hide();
     });
 
-  })
+  }])
 
-  .config(function($httpProvider, $stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+  .config(['$httpProvider', '$stateProvider', '$urlRouterProvider', '$ionicConfigProvider',function($httpProvider, $stateProvider, $urlRouterProvider, $ionicConfigProvider) {
     // register $http interceptors, if any. e.g.
     // $httpProvider.interceptors.push('interceptor-name');
 
@@ -246,8 +257,18 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
 
       .state('userChatList', {
         url: '/userChatList',
+        cache: false,
         templateUrl: 'templates/user/user-chat-list.html',
         controller: 'UserChatListCtrl'
+      })
+
+      .state('userProfile', {
+        url: '/userProfile',
+        templateUrl: 'templates/user/user-profile.html',
+        controller: 'UserProfileCtrl',
+        params: {
+          uid: null
+        }
       });
 
     // if none of the above states are matched, use this as the fallback
@@ -268,4 +289,4 @@ angular.module('Divvy', ['ionic', 'ngCordova', 'ngResource', 'ngStorage', 'fireb
         }
       }
     });*/
-  });
+  }]);

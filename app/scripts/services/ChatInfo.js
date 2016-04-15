@@ -9,7 +9,7 @@
  *
  */
 angular.module('Divvy')
-  .factory('ChatInfo', function($localStorage, FirebaseRef, $q) {
+  .factory('ChatInfo', ['$localStorage', 'FirebaseRef', '$q', function($localStorage, FirebaseRef, $q) {
 
     return {
       get: function (users) {
@@ -81,4 +81,4 @@ angular.module('Divvy')
         return info;
       }
     };
-  });
+  }]);

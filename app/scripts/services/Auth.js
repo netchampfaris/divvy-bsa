@@ -9,8 +9,7 @@
  *
  */
 angular.module('Divvy')
-  .factory('Auth', function($firebaseAuth, FirebaseUrl) {
+  .factory('Auth', ['$firebaseAuth', 'FirebaseUrl', function($firebaseAuth, FirebaseUrl) {
     var ref = new Firebase(FirebaseUrl);
     return $firebaseAuth(ref);
-  });
-
+  }]);
